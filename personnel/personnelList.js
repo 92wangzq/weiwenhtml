@@ -72,7 +72,7 @@ $(document).ready(function() {
 			}
 		}, {
 			field: 'realName',
-			title: '姓名'
+			title: '姓名',
 		}, {
 			field: 'sex',
 			title: '性别',
@@ -114,6 +114,19 @@ $(document).ready(function() {
 					return "稳控中";
 				} else if(value = 'SLZ') {
 					return "失联中";
+				}
+			}
+		}, {
+			field: '',
+			title: '风险等级',
+			formatter: function(value, row) {
+				return "";
+			},
+			cellStyle: function(value, row, index) {
+				return {
+					css: {
+						"background-color": row.riskRating
+					}
 				}
 			}
 		}, {
@@ -354,14 +367,14 @@ $(document).ready(function() {
 				}
 			}
 		}],
-		rowStyle: function(row, index) {
-			return {
-				css: {
-					"background-color": row.riskRating,
-					"height": "20px"
-				}
-			}
-		}, //隔行变色
+//		rowStyle: function(row, index) {
+//			return {
+//				css: {
+//					"background-color": row.riskRating,
+//					"height": "20px"
+//				}
+//			}
+//		}, //隔行变色
 	});
 
 	function queryParams(params) {
