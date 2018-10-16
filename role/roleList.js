@@ -1,6 +1,6 @@
-$(function() {
-	$('#userTable').bootstrapTable({
-		url: '/user/searchUsers', //请求后台的URL（*）
+$(function(){
+	$("#roleTable").bootstrapTable({
+		url: '/system/roleList', //请求后台的URL（*）
 		method: 'get', //请求方式（*）
 		toolbar: '#toolbar', //工具按钮用哪个容器
 		striped: true, //是否显示行间隔色
@@ -21,20 +21,14 @@ $(function() {
 				return index + 1;
 			}
 		}, {
-			field: 'realName',
-			title: '姓名'
+			field: 'description',
+			title: '角色名称'
 		}, {
-			field: 'userName',
-			title: '登录名'
+			field: 'role',
+			title: '英文名称'
 		}, {
-			field: 'area.title',
-			title: '所属区域'
-		}, {
-			field: 'insertTime',
-			title: '创建时间'
-		}, {
-			field: 'updateTime',
-			title: '修改时间'
+			field: 'description',
+			title: '描述'
 		}, {
 			field: 'operate',
 			title: '操作',
@@ -88,23 +82,4 @@ $(function() {
 		console.log(temp);
 		return temp;
 	}
-	$("#save").click("on", function(){
-		console.log($('#saveUserForm').serialize());
-		$.ajax({
-			type: "POST", //方法类型
-			dataType: "json", //预期服务器返回的数据类型
-			url: "/user/save", //url
-			data: $('#saveUserForm').serialize(),
-			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
-				if(rst.code == 0) {
-					$('#saveUserModal').modal('hide');
-					$("#userTable").bootstrapTable('refresh');
-				};
-			},
-			error: function() {
-				alert("异常！");
-			}
-		});
-	})
-});
+})

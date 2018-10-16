@@ -1,14 +1,15 @@
 $(document).ready(function() {
-
+	
 	//加载左侧treeView
 	$.ajax({
 		type: "get",
 		dataType: "json", //预期服务器返回的数据类型
 		url: "/area/children", //url
 		success: function(rst) {
-			console.log(rst); //打印服务端返回的数据(调试用)
 			$("#areaTreeView").treeview({
 				data: rst,
+				showBorder: false,
+				levels: 3,
 				onNodeSelected: function(event, data) {
 					$("#searchAreaOid").val(data.oid);
 					$("#personnelTable").bootstrapTable('refresh');
@@ -51,31 +52,37 @@ $(document).ready(function() {
 
 	//加载人员信息数据列表
 	$('#personnelTable').bootstrapTable({
-		url: '/personnel/searchPersonnels', //请求后台的URL（*）
 		method: 'get', //请求方式（*）
-		toolbar: '#toolbar', //工具按钮用哪个容器
+		url: '/personnel/searchPersonnels', //请求后台的URL（*）
+		contentType: "application/json; charset=utf-8",
+		uniqueId: "oid", //每一行的唯一标识，一般为主键列
 		cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination: true, //是否显示分页（*）
-		queryParams: queryParams, //传递参数（*）
 		sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
+		queryParams: queryParams, //传递参数（*）
 		pageNumber: 1, //初始化加载第一页，默认第一页
 		pageSize: 10, //每页的记录行数（*）
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
-		contentType: "application/x-www-form-urlencoded",
-		strictSearch: true,
-		clickToSelect: true, //是否启用点击选中行
-		uniqueId: "oid", //每一行的唯一标识，一般为主键列
+		toolbar: '#toolbar', //工具按钮用哪个容器
+		toolbarAlign: "right",
+		striped: true, //隔行变色
 		columns: [{
 			title: '序号',
+			width: '5%',
+			align: 'center',
 			formatter: function(value, row, index) {
 				return index + 1;
 			}
 		}, {
 			field: 'realName',
 			title: '姓名',
+			width: '5%',
+			align: 'center'
 		}, {
 			field: 'sex',
 			title: '性别',
+			width: '5%',
+			align: 'center',
 			formatter: function(value, row) {
 				if(value == 1) {
 					return '男'
@@ -85,28 +92,43 @@ $(document).ready(function() {
 			}
 		}, {
 			field: 'nation',
-			title: '民族'
+			title: '民族',
+			width: '5%',
+			align: 'center'
 		}, {
 			field: 'identityCard',
-			title: '身份证号'
+			title: '身份证号',
+			width: '12%',
+			align: 'center'
 		}, {
 			field: 'birthday',
-			title: '出生日期'
+			title: '出生日期',
+			width: '8%',
+			align: 'center'
 		}, {
 			field: 'workUnit',
-			title: '工作单位'
+			title: '工作单位',
+			align: 'center'
 		}, {
 			field: 'politicalStatus',
-			title: '政治面貌'
+			title: '政治面貌',
+			width: '6%',
+			align: 'center'
 		}, {
 			field: 'telephone',
-			title: '联系方式'
+			title: '联系方式',
+			width: '8%',
+			align: 'center'
 		}, {
 			field: 'type.title',
 			title: '人员类别',
+			width: '6%',
+			align: 'center'
 		}, {
 			field: 'realState',
 			title: '现实状态',
+			width: '6%',
+			align: 'center',
 			formatter: function(value, row) {
 				if(value == 'XSBF') {
 					return "息诉罢访";
@@ -117,27 +139,38 @@ $(document).ready(function() {
 				}
 			}
 		}, {
-			field: '',
+			field: 'riskRating',
 			title: '风险等级',
+			width: '6%',
+			align: 'center',
 			formatter: function(value, row) {
-				return "";
+				if(row.riskRating == "green") {
+					return "绿色";
+				} else if(row.riskRating == "orange") {
+					return "橙色";
+				} else if(row.riskRating == "red") {
+					return "红色";
+				} else if(row.riskRating == "gray") {
+					return "灰色";
+				}
 			},
 			cellStyle: function(value, row, index) {
 				return {
 					css: {
-						"background-color": row.riskRating
+						"color": row.riskRating
 					}
 				}
 			}
 		}, {
 			field: 'operate',
 			title: '操作',
+			width: '12%',
 			align: 'center',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfview btn btn-default btn-sm" style="margin-right:15px;">查看</button>',
-					'<button type="button" class="RoleOfdelete btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
-					'<button type="button" class="RoleOfedit btn btn-default  btn-sm" style="margin-right:15px;">修改</button>'
+					'<button type="button" class="RoleOfview btn btn-primary btn-sm">查看</button>',
+					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>',
+					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>'
 				].join('');
 			},
 			events: {
@@ -259,7 +292,6 @@ $(document).ready(function() {
 				'click .RoleOfview': function(e, value, row, index) {
 					$.setDiv("#viewPersonnelInfo", row);
 					$("#viewPersonnelInfo #operator").html(row.user.realName);
-					console.log(row);
 					if(row.area != null) {
 						$("#viewPersonnelInfo #viewAreaName").html(row.area.title);
 					}
@@ -366,21 +398,13 @@ $(document).ready(function() {
 					$('#personnelInfoModal').modal('show');
 				}
 			}
-		}],
-//		rowStyle: function(row, index) {
-//			return {
-//				css: {
-//					"background-color": row.riskRating,
-//					"height": "20px"
-//				}
-//			}
-//		}, //隔行变色
+		}]
 	});
 
 	function queryParams(params) {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit: params.limit, //页面大小
-			offset: params.offset,
+			offset: (params.offset / params.limit) + 1,
 			realName: $("#searchRealName").val(),
 			sex: $("#searchSex").val(),
 			nation: $("#searchNation").val(),
@@ -393,12 +417,14 @@ $(document).ready(function() {
 			"type.oid": $("#searchPersonnelType").val(),
 			"area.oid": $("#searchAreaOid").val()
 		};
-		console.log(temp);
 		return temp;
 	}
 
+	$("#personnelTable").colResizable({
+	});
+
 	//绑定查询按钮事件
-	$("#search").on('click', function() {
+	$("#search").off('click').on('click', function() {
 		$("#personnelTable").bootstrapTable('refresh');
 	})
 
@@ -417,22 +443,19 @@ $(document).ready(function() {
 	});
 
 	//绑定新增按钮事件
-	$("#addPersonnelBtn").click('on', function() {
+	$("#addPersonnelBtn").off('click').click('on', function() {
 		$('#familyTable').bootstrapTable({
 			url: '', //请求后台的URL（*）
 			method: 'get', //请求方式（*）
 			toolbar: '#familyTableToolbar', //工具按钮用哪个容器
-			striped: true, //是否显示行间隔色
 			cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 			contentType: "application/x-www-form-urlencoded",
 			strictSearch: true,
-			minimumCountColumns: 2, //最少允许的列数
 			clickToSelect: true, //是否启用点击选中行
 			uniqueId: "oid", //每一行的唯一标识，一般为主键列
 			showToggle: false, //是否显示详细视图和列表视图的切换按钮
-			cardView: false, //是否显示详细视图
-			detailView: false, //是否显示父子表
-			editable: true, //开启编辑模式
+			toolbarAlign: "right",
+			striped: true, //隔行变色
 			columns: [{
 				title: '序号',
 				formatter: function(value, row, index) {
@@ -477,62 +500,60 @@ $(document).ready(function() {
 			url: "/personnelType/children?pOid=0",
 			dataType: "json",
 			success: function(rst) {
+				var options = "<option value=''>===请选择===</option>";
 				$.each(rst, function(n, val) {
-					$("#personnelTypeParent").append("<option value='" + val.oid + "'>" + val.title + "</option>");
+					options += "<option value='" + val.oid + "'>" + val.title + "</option>";
 				});
+				$("#personnelTypeParent").html(options);
 			}
 		});
 		$('#savePersonnelModal').modal('show');
 	});
 
-	$("#personnelTypeParent").on('change', function() {
+	$("#personnelTypeParent").off('change').on('change', function() {
 		$.ajax({
 			type: "get",
 			url: "/personnelType/children?pOid=" + $("option:selected", this).val(),
 			dataType: "json",
 			success: function(rst) {
+				var options = "<option value=''>===请选择===</option>";
 				$.each(rst, function(n, val) {
-					$("#personnelType").append("<option value='" + val.oid + "'>" + val.title + "</option>");
+					options += "<option value='" + val.oid + "'>" + val.title + "</option>";
 				});
+				$("#personnelType").html(options);
 			}
 		});
 	});
 
-	$("#areaName").click('on', function(event) {
+	$("#areaName").off('click').click('on', function(event) {
 		$.ajax({
 			type: "get",
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/area/children", //url
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				$("#areaTree").treeview({
 					data: rst,
 					onNodeSelected: function(event, data) {
-						console.log(data);
-						$("#areaName").html(data.title);
+						$("#areaName").val(data.title);
 						$("#areaOid").val(data.oid);
 						$("#areaModal").modal("hide");
 					}
 				});
+				$("#areaModal").modal("show");
 			},
 			error: function() {
 				alert("异常！");
 			}
 		});
-		$("#areaModal").modal("show");
 	})
 
 	$("#realState").on('change', function() {
 		var value = $("option:selected", this).val();
 		var more = $("#more option:selected").val();
-		console.log(value);
-		console.log(more);
 		if($("#personnelType").val() == 6 || $("#personnelType").val() == 7 || $("#personnelType").val() == 8) {
 			$("#riskRating").find("option[value='gray']").attr("selected", "selected");
 		} else {
 			if(value == 'WKZ' && more == '0') {
-				console.log(value);
-				console.log(more);
 				$("#riskRating").find("option[value='green']").attr("selected", "selected");
 			} else if(value == 'WKZ' && (more >= 1 || more <= 2)) {
 				$("#riskRating").find("option[value='orange']").attr("selected", "selected");
@@ -558,24 +579,21 @@ $(document).ready(function() {
 		}
 	});
 
-	$("#saveFamily").on("click", function() {
+	$("#saveFamily").off('click').on("click", function() {
 		var row = $.getFormJson('#saveFamilyForm');
-		console.log(row);
 		$("#familyTable").bootstrapTable("append", row);
-		console.log();
+		$("#saveFamilyForm")[0].reset();
+		$("#familyModel").modal("hide");
 	});
 
-	$("#save").click("on", function() {
-		console.log(JSON.stringify($("#familyTable").bootstrapTable("getData")));
+	$("#save").off('click').on("click", function() {
 		$("#familyJson").val(JSON.stringify($("#familyTable").bootstrapTable("getData")));
-		console.log($('#savePersonnelForm').serialize());
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/personnel/save", //url
 			data: $('#savePersonnelForm').serialize(),
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				if(rst.code == 0) {
 					$('#savePersonnelModal').modal('hide');
 					$("#personnelTable").bootstrapTable('refresh');
@@ -586,12 +604,11 @@ $(document).ready(function() {
 			}
 		});
 	})
-	$("#exportStuInfoExcel").on('click', function() {
+	$("#exportStuInfoExcel").off('click').on('click', function() {
 		$("#searchPersonnelForm").submit();
 	})
 
 	$('#familyModel').on('hidden.bs.modal', function() {
-		alert("fsdfdsfsdfsdfsd");
 		$('#savePersonnelModal').css({
 			'overflow-y': 'scroll'
 		});
@@ -599,7 +616,6 @@ $(document).ready(function() {
 	});
 
 	$('#areaModal').on('hidden.bs.modal', function() {
-		alert("fsdfdsfsdfsdfsd");
 		$('#savePersonnelModal').css({
 			'overflow-y': 'scroll'
 		});

@@ -9,6 +9,8 @@ $(function() {
 			console.log(rst); //打印服务端返回的数据(调试用)
 			$("#documentColumnTreeView").treeview({
 				data: rst,
+				showBorder: false,
+				levels: 3,
 				onNodeSelected: function(event, data) {
 					console.log(data);
 					$("#searchDocumentColumnOid").val(data.oid);
@@ -39,7 +41,6 @@ $(function() {
 		language: 'cn'
 	});
 
-	var ue = UE.getEditor("editor");
 	$('#documentTable').bootstrapTable({
 		url: '/document/searchDocuments', //请求后台的URL（*）
 		method: 'post', //请求方式（*）
@@ -56,6 +57,8 @@ $(function() {
 		strictSearch: true,
 		clickToSelect: true, //是否启用点击选中行
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
+		toolbarAlign: "right",
+		striped: true,//隔行变色
 		columns: [{
 			title: '序号',
 			formatter: function(value, row, index) {
@@ -142,7 +145,11 @@ $(function() {
 								}
 							});
 							$("#fileOid").val(rst.file.oid);
-							UE.getEditor('editor').setContent(rst.description);
+							var ue = UE.getEditor("documentEditor");
+							ue.execCommand("clearlocaldata");
+							ue.ready(function() { 
+								ue.setContent(rst.description); 
+							});
 						}
 					});
 					$('#saveDocumentModal').modal('show');
@@ -190,25 +197,13 @@ $(function() {
 					$("#documentTable").bootstrapTable('refresh');
 				}
 			}
-		}],
-		rowStyle: function(row, index) {
-			var classesArr = ['success', 'info'];
-			var strclass = "";
-			if(index % 2 === 0) { //偶数行
-				strclass = classesArr[0];
-			} else { //奇数行
-				strclass = classesArr[1];
-			}
-			return {
-				classes: strclass
-			};
-		}, //隔行变色
+		}]
 	});
 
 	function queryParams(params) {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit: params.limit, //页面大小
-			offset: params.offset,
+			offset: (params.offset / params.limit) + 1,
 			title: $("#searchTitle").val(),
 			'column.oid': $("#searchDocumentColumnOid").val(),
 			startTime: $("#searchStartInsertTime").val(),
@@ -223,8 +218,11 @@ $(function() {
 
 	$("#addDocumentBtn").click("on", function() {
 		$("#saveDocumentForm")[0].reset();
-		UE.getEditor('editor').execCommand("clearlocaldata");
-		UE.getEditor('editor').setContent("");
+		var ue = UE.getEditor("documentEditor");
+		ue.execCommand("clearlocaldata");
+		ue.ready(function() { 
+			ue.setContent(''); 
+		});
 		$.ajax({
 			type: "get",
 			url: "/documentColumn/children",
@@ -261,7 +259,7 @@ $(function() {
 
 	});
 	$("#save").on("click", function() {
-		$("#saveDocumentForm #description").val(UE.getEditor('editor').getContent());
+		$("#saveDocumentForm #description").val(UE.getEditor('documentEditor').getContent());
 		console.log($('#saveDocumentForm').serialize());
 		$.ajax({
 			type: "POST", //方法类型

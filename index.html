@@ -6,92 +6,222 @@
 		<meta charset="utf-8">
 		<link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
 		<link href="/css/font-awesome/css/font-awesome.css" rel="stylesheet" />
-
 		<link href="/css/animate.css" rel="stylesheet" />
-		<link href="/css/style.css" rel="stylesheet" />
+		<link href="/css/style1.css" rel="stylesheet" />
+		<link href="/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+		<link href="/css/plugins/morris/morris.css" rel="stylesheet">
 		<!-- 引入bootstrap-table样式 -->
 		<link href="/css/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
 		<!-- 引入bootstrap-datetimepicker样式 -->
 		<link href="/css/bootstrap/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
 		<link href="/css/bootstrap/bootstrap-editable/bootstrap-editable.css" rel="stylesheet">
-		<link rel="stylesheet" href="/css/message.css">
+		<link href="/css/bootstrap/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
+		<style>
+			thead {
+				background-color: #428BCA;
+				color: #FFFFFF;
+				text-align: center;
+			}
+			
+			td {
+				white-space: nowrap;
+			}
+			
+			th {
+				white-space: nowrap;
+			}
+			
+			.btn-sm {
+				margin-left: 1px;
+				margin-right: 1px;
+				font-size: 12px;
+				line-height: 1;
+				border-radius: 3px;
+			}
+		</style>
 	</head>
 
-	<body style="padding-bottom: 70px;">
+	<body class="pace-done">
+		<div class="pace  pace-inactive">
+			<div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+				<div class="pace-progress-inner"></div>
+			</div>
+			<div class="pace-activity"></div>
+		</div>
 		<div id="wrapper">
 			<nav class="navbar-default navbar-static-side" role="navigation">
 				<div class="sidebar-collapse">
 					<ul class="nav metismenu" id="side-menu">
 						<li class="nav-header">
-							<span id="loginInfo" class="m-r-sm text-muted welcome-message">欢迎使用“”维稳信息平台</span>
+							<div class="dropdown profile-element"> <span>
+                             </span>
+								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+									<span class="clear"> 
+										<span class="block m-t-xs"> 
+											<strong class="font-bold" id="loginInfo">王宇</strong>
+			                            </span>
+									<span class="text-muted text-xs block">
+			                            	管理员<b class="caret"></b>
+			                            </span>
+									</span>
+								</a>
+								<ul class="dropdown-menu animated fadeInRight m-t-xs">
+									<li>
+										<a href="profile.html">个人信息</a>
+									</li>
+									<li>
+										<a href="contacts.html">好友</a>
+									</li>
+									<li>
+										<a href="mailbox.html">信箱</a>
+									</li>
+									<li class="divider"></li>
+									<li>
+										<a href="login.html">登出</a>
+									</li>
+								</ul>
+							</div>
+							<div class="logo-element">
+								维稳
+							</div>
 						</li>
 					</ul>
 				</div>
 			</nav>
 			<div id="page-wrapper" class="gray-bg">
 				<div class="row border-bottom">
-					<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0;height:66px;">
-						<div class="navbar-header" style="width:100px;height:10px;">
-						</div>
-						<div class="navbar-header">
-							<span class="navbar-minimalize"><h2>通辽市维稳信息管理系统</h2></span>
-						</div>
-						<ul class="nav navbar-top-links navbar-right">
-							<li>
-								<span id="nowTime" class="m-r-sm text-muted welcome-message"></span>
-							</li>
-							<li>
-								<span class="m-r-sm text-muted welcome-message">修改密码</span>
-							</li>
-							<li>
-								<a>
-									<i id="logout" class="fa fa-sign-out"></i> 登 出
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-				<div class="wrapper wrapper-content" id="content">
-				</div>
-				<nav class="navbar navbar-default navbar-fixed-bottom" style="margin: auto;min-height: auto;">
-					<div class="container">
+					<div class="row border-bottom">
+						<nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+							<div class="navbar-header">
+								<a class="navbar-minimalize minimalize-styl-2 btn btn-circle " href="#"><i class="fa fa-bars"></i></a>
+							</div>
+							<ul class="nav navbar-top-links navbar-right">
+								<li>
+									<span id="nowTime" class="m-r-sm text-muted welcome-message"></span>
+								</li>
+								<li>
+									<span class="m-r-sm text-muted welcome-message">修改密码</span>
+								</li>
+								<li class="dropdown">
+									<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+										<i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
+									</a>
+									<ul class="dropdown-menu dropdown-messages">
+										<li>
+											<div class="dropdown-messages-box">
+												<a href="profile.html" class="pull-left">
+													<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a7.jpg">
+												</a>
+												<div>
+													<small class="pull-right">46小时前</small>
+													<strong>小明</strong> 评论了 <strong>小红</strong>. <br>
+													<small class="text-muted">2017.10.06 7:58</small>
+												</div>
+											</div>
+										</li>
+										<li class="divider"></li>
+										<li>
+											<div class="dropdown-messages-box">
+												<a href="profile.html" class="pull-left">
+													<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a4.jpg">
+												</a>
+												<div class="media-body ">
+													<small class="pull-right text-navy">5小时前</small>
+													<strong>小红</strong> 打电话给了 <strong>小黑</strong>. <br>
+													<small class="text-muted">2017.10.06 7:58</small>
+												</div>
+											</div>
+										</li>
+										<li class="divider"></li>
+										<li>
+											<div class="dropdown-messages-box">
+												<a href="profile.html" class="pull-left">
+													<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/profile.jpg">
+												</a>
+												<div class="media-body ">
+													<small class="pull-right">23小时前</small>
+													<strong>小黑</strong> 点赞了 <strong>小红</strong>. <br>
+													<small class="text-muted">2017.10.06 7:58</small>
+												</div>
+											</div>
+										</li>
+										<li class="divider"></li>
+										<li>
+											<div class="text-center link-block">
+												<a href="mailbox.html">
+													<i class="fa fa-envelope"></i> <strong>阅读所有消息</strong>
+												</a>
+											</div>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a href="login.html">
+										<i class="fa fa-sign-out"></i> 注销
+									</a>
+								</li>
+							</ul>
+							<ul class="nav navbar-top-links navbar-left">
+								<li>
+									<h2></h2></li>
+							</ul>
+							<ul class="nav navbar-top-links navbar-left">
+								<li>
+									<h2>通辽市维稳信息管理系统</h2></li>
+							</ul>
+						</nav>
+					</div>
+					<div class="wrapper wrapper-content animated fadeInRight" id="content">
+					</div>
+					<div class="footer">
 						<div class="pull-right">
-							moxi <strong>moxi</strong> moxi.
 						</div>
 						<div>
-							<strong>Copyright</strong> Example Company &copy; 2015-2025
+							<strong>Copyright</strong> inspinia中文 © 2017-2018
 						</div>
 					</div>
-				</nav>
+				</div>
 			</div>
-		</div>
 	</body>
 	<!-- Mainly scripts -->
-	<script src="/js/jquery-2.1.1.js"></script>
+	<script src="/js/jquery-3.1.1.min.js"></script>
+	<!--<script src="/js/jquery-2.1.1.js"></script>-->
 	<script src="/js/jquery.cookie.js"></script>
 	<script src="/js/util.js"></script>
 	<script src="/js/bootstrap/bootstrap.min.js"></script>
-	<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- Custom and plugin javascript -->
-	<script src="/js/plugins/pace/pace.min.js"></script>
-	<!-- bootstrap-table.min.js -->
 	<script src="/js/bootstrap/bootstrap-table/bootstrap-table.js"></script>
-	<script src="/js/bootstrap/bootstrap-table/colResizable-1.6.min.js"></script>
-	<script src="/js/bootstrap/bootstrap-table/colResizable-1.6.js"></script>
-	<script src="/js/bootstrap/bootstrap-table/bootstrap-table-resizable.js"></script>
-	<!-- bootstrap-table.min.js -->
+	<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 	<script src="/js/bootstrap/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
-	<!-- bootstrap-table.min.js -->
 	<script src="/js/bootstrap/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
-	<!-- 引入中文语言包 -->
-	<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>\
 	<script src="/js/bootstrap/bootstrap-treeview/bootstrap-treeview.js"></script>
 	<script src="/js/bootstrap/bootstrap-editable/bootstrap-editable.js"></script>
-	<script src="/js/message.js"></script>
+	<!--<script src="/js/bootstrap/bootstrap-tooltip/bootstrap-tooltip.js"></script>-->
+	<!--<script src="/js/bootstrap/bootstrap-popover/bootstrap-popover.js"></script>-->
+	<script src="/js/bootstrap/bootstrap-select/bootstrap-select.min.js"></script>
+	<script src="/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<!-- Sparkline -->
+	<script src="/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+	<!-- Peity -->
+	<script src="/js/plugins/peity/jquery.peity.min.js"></script>
+	<script src="/js/demo/peity-demo.js"></script>
+	<!-- Custom and plugin javascript -->
+	<script src="/js/inspinia.js"></script>
+	<script src="/js/plugins/pace/pace.min.js"></script>
+	<!-- Steps -->
+	<script src="/js/plugins/staps/jquery.steps.min.js"></script>
+	<!-- Jquery Validate -->
+	<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="/js/plugins/validate/messages_zh.js"></script>
+	<!-- Morris -->
+	<script src="/js/plugins/morris/raphael-min.js"></script>
+	<script src="/js/plugins/morris/morris.min.js"></script>
+	<!-- baidu ueditor -->
 	<script src="/js/ueditor/ueditor.config.js"></script>
 	<script src="/js/ueditor/ueditor.all.js"></script>
 	<script src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
+	<!-- colResizable -->
+	<script src="/js/colResizable-1.6.js"></script>
 	<script>
 		$(function() {
 			var userName = $.cookie("userName");
@@ -99,7 +229,7 @@
 			if(!userName) {
 				window.location.href = '/login.html';
 			} else {
-				$("#loginInfo").html("当前登录人：" + $.cookie("userName"));
+				$("#loginInfo").html($.cookie("userName"));
 			}
 
 			//退出登录
@@ -120,7 +250,6 @@
 				type: 'post',
 				dataType: 'json',
 				success: function(rst) {
-					console.log(rst);
 					var menu = ""; //定义变量存储            
 					$.each(rst, function(n, val) {
 						menu += '<li>'
@@ -130,18 +259,18 @@
 							$.each(val.permissions, function(n, two) {
 								if(two.permissions != null) {
 									menu += '<li>';
-									menu += '<a href="#" id="damian">' + two.name + '<span class="fa arrow"></span></a>'
+									menu += '<a href="#">' + two.name + '<span class="fa arrow"></span></a>'
 									menu += '<ul class="nav nav-third-level collapse userMenu">';
 									$.each(two.permissions, function(n, three) {
 										menu += '<li>';
-										menu += '<a data-id="'+three.url+'">' + three.name + '</a>'
+										menu += '<a data-id="' + three.url + '">' + three.name + '</a>'
 										menu += '</li>';
 									});
 									menu += '</ul>';
 									menu += '</li>';
 								} else {
 									menu += '<li>';
-									menu += '<a data-id="'+two.url+'">' + two.name + '</a>';
+									menu += '<a data-id="' + two.url + '">' + two.name + '</a>';
 									menu += '</li>';
 								}
 							})
@@ -149,22 +278,24 @@
 						menu += '</ul>';
 						menu += '</li>';
 					})
-					console.log(menu);
 					$("#side-menu").append(menu);
 					// MetsiMenu
 					$('#side-menu').metisMenu();
 					$(".userMenu").on("click", "a", function() {
 						var sId = $(this).data("id"); //获取data-id的值
-						window.location.hash = sId; //设置锚点
-						loadInner(sId);
+						if(sId != null && sId != undefined) {
+							loadInner(sId);
+						}
 					});
 				}
 			});
 
 			function loadInner(sId) {
-				$("#content").load(sId); //加载相对应的内容
+				if(sId != null && sId != undefined) {
+					$("#content").load(sId); //加载相对应的内容
+				}
 			}
-			loadInner("personnel/personnelList.html");
+			loadInner("test.html");
 
 			//首页top当前时间
 			setInterval(function() {

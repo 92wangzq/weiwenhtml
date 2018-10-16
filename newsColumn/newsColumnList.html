@@ -6,17 +6,40 @@
 		<script src="/newsColumn/newsColumnList.js"></script>
 	</head>
 	<body>
-		<div class="wrapper wrapper-content">
-			<div class="panel panel-default">
-				<div class="panel-heading">栏目查询</div>
-				<div id="toolbar" class="btn-group">
-					<button id="addNewsColumnBtn" type="button" class="btn btn-default">
-        				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-    				</button>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="ibox-title">
+					<h5>维稳工作>>办公助手>>栏目查询</h5>
 				</div>
-				<table id="newsColumnTable"></table>
+				<div class="ibox float-e-margins">
+					<div class="ibox-content" style="">
+						<div class="row">
+							<div class="col-lg-2">
+								<div class="ibox float-e-margins">
+									<div class="ibox-content mailbox-content">
+										<div class="file-manager">
+											<div id="areaTreeView"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-10 animated fadeInRight">
+								<form id="searchPersonnelForm">
+									<input type="hidden" value="" id="searchAreaOid" />
+								</form>
+								<div id="toolbar" class="btn-group">
+									<button id="addNewsColumnBtn" type="button" class="btn btn-primary">
+				        				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+				    				</button>
+								</div>
+								<table id="newsColumnTable"></table>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+		
 		<div class="modal fade bs-example-modal-lg" id="saveNewsColumnModal" tabindex="-1" role="dialog" aria-labelledby="saveNewsColumnModalLabel">
 			<div class="modal-dialog modal-lg" role="document">
 				<div class="modal-content">
@@ -31,14 +54,21 @@
 								<div class="col-xs-4">
 									<div class="form-group">
 										<label class="control-label">栏目名称</label>
-										<input type="text" class="form-control" id="title" name="title">
+										<input type="text" class="form-control required" id="title" name="title">
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="form-group">
+										<label class="control-label">所属区域</label>
+										<input type="text" class="form-control required" id="areaName" readonly />
+										<input type="hidden" name="area.oid" id="areaOid" value="" />
 									</div>
 								</div>
 								<div class="col-xs-4">
 									<div class="form-group">
 										<label class="control-label">所属栏目</label>
-										<select class="form-control" id="pOid" name="pOid">
-											<option>===请选择===</option>
+										<select class="form-control" id="parentOid" name="parent.oid">
+											<option value="0">===请选择===</option>
 										</select>
 									</div>
 								</div>
@@ -53,6 +83,22 @@
 				<!-- /.modal-content -->
 			</div>
 			<!-- /.modal-dialog -->
+		</div>
+		<!--
+        	行政区域弹窗
+        -->
+		<div class="modal fade bs-example-modal-sm" id="areaModal" tabindex="-1" role="dialog" aria-labelledby="areaModalLabel">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">行政区域选择</h4>
+					</div>
+					<div class="modal-body" id="areaTree">
+
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

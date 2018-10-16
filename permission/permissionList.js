@@ -1,6 +1,6 @@
 $(function() {
-	$('#userTable').bootstrapTable({
-		url: '/user/searchUsers', //请求后台的URL（*）
+	$("#permissionTable").bootstrapTable({
+		url: '/system/permissionList', //请求后台的URL（*）
 		method: 'get', //请求方式（*）
 		toolbar: '#toolbar', //工具按钮用哪个容器
 		striped: true, //是否显示行间隔色
@@ -9,7 +9,7 @@ $(function() {
 		queryParams: queryParams,
 		sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
 		pageNumber: 1, //初始化加载第一页，默认第一页
-		pageSize: 10, //每页的记录行数（*）
+		pageSize: 5, //每页的记录行数（*）
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
 		contentType: "application/x-www-form-urlencoded",
 		strictSearch: true,
@@ -21,20 +21,14 @@ $(function() {
 				return index + 1;
 			}
 		}, {
-			field: 'realName',
-			title: '姓名'
+			field: 'name',
+			title: '资源名称'
 		}, {
-			field: 'userName',
-			title: '登录名'
+			field: 'permission',
+			title: '权限标识'
 		}, {
-			field: 'area.title',
-			title: '所属区域'
-		}, {
-			field: 'insertTime',
-			title: '创建时间'
-		}, {
-			field: 'updateTime',
-			title: '修改时间'
+			field: 'url',
+			title: '链接'
 		}, {
 			field: 'operate',
 			title: '操作',
@@ -49,12 +43,12 @@ $(function() {
 			},
 			events: {
 				'click .RoleOfview': function() {
-			
+
 				},
 				'click .RoleOfdelete': function(e, value, row, index) {
 					$.ajax({
-						type:"get",
-						url:"/userType/remove?oid="+row.oid,
+						type: "get",
+						url: "/userType/remove?oid=" + row.oid,
 						contentType: "application/json; charset=utf-8",
 						success: function() {
 							$("#userTable").bootstrapTable('refresh');
@@ -62,7 +56,7 @@ $(function() {
 					});
 				},
 				'click .RoleOfedit': function() {
-					
+
 				}
 			}
 		}],
@@ -79,6 +73,7 @@ $(function() {
 			};
 		}
 	});
+
 	function queryParams(params) {
 		console.log(params);
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
@@ -88,23 +83,4 @@ $(function() {
 		console.log(temp);
 		return temp;
 	}
-	$("#save").click("on", function(){
-		console.log($('#saveUserForm').serialize());
-		$.ajax({
-			type: "POST", //方法类型
-			dataType: "json", //预期服务器返回的数据类型
-			url: "/user/save", //url
-			data: $('#saveUserForm').serialize(),
-			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
-				if(rst.code == 0) {
-					$('#saveUserModal').modal('hide');
-					$("#userTable").bootstrapTable('refresh');
-				};
-			},
-			error: function() {
-				alert("异常！");
-			}
-		});
-	})
-});
+})

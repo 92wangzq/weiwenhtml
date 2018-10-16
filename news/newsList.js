@@ -4,26 +4,22 @@ $(function(){
 	$.ajax({
 		type: "get",
 		dataType: "json", //预期服务器返回的数据类型
-		url: "/newsColumn/children?pOid=0", //url
+		url: "/newsColumn/searchNewsColumnTreeview", //url
 		success: function(rst) {
-			console.log(rst); //打印服务端返回的数据(调试用)
 			$("#newsColumnTreeView").treeview({
 				data: rst,
+				showBorder: false,
+				levels: 3,
 				onNodeSelected: function(event, data) {
-					console.log(data);
 					$("#searchNewsColumnOid").val(data.oid);
 					$("#newsTable").bootstrapTable('refresh');
 					
 				},
 				onNodeUnselected: function(event, data) {
-                    console.log(data);
 					$("#searchNewsColumnOid").val("");
 					$("#newsTable").bootstrapTable('refresh');
                 }
 			});
-		},
-		error: function() {
-			alert("异常！");
 		}
 	});
 	
@@ -40,12 +36,11 @@ $(function(){
 		language: 'cn'
 	});
 	
-	//初始化文本编辑器
-	var ue = UE.getEditor('editor');
 	$('#newsTable').bootstrapTable({
 		url: '/news/searchNews', //请求后台的URL（*）
 		method: 'get', //请求方式（*）
 		toolbar: '#toolbar', //工具按钮用哪个容器
+		toolbarAlign: "right",
 		striped: true, //是否显示行间隔色
 		cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination: true, //是否显示分页（*）
@@ -54,37 +49,43 @@ $(function(){
 		pageNumber: 1, //初始化加载第一页，默认第一页
 		pageSize: 10, //每页的记录行数（*）
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
-		contentType: "application/x-www-form-urlencoded",
-		strictSearch: true,
-		clickToSelect: true, //是否启用点击选中行
+		contentType: "application/json; charset=utf-8",
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
 		columns: [{
 			title: '序号',
+			width: '5%',
+			align: 'center',
 			formatter: function(value, row, index) {
 				return index + 1;
-			},
-			width: '5%'
+			}
 		}, {
 			field: 'title',
 			title: '标题',
 		}, {
+			field: 'column.title',
+			title: '所属栏目',
+			width: '10%',
+			align: 'center'
+		}, {
 			field: 'user.realName',
 			title: '发布人',
-			width: '5%'
+			width: '5%',
+			align: 'center'
 		}, {
 			field: 'insertTime',
 			title: '发布时间',
-			width: '15%'
+			width: '15%',
+			align: 'center'
 		}, {
 			field: 'operate',
 			title: '操作',
 			align: 'center',
-			width: '15%',
+			width: '10%',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfview btn btn-default btn-sm" style="margin-right:15px;">查看</button>',
-					'<button type="button" class="RoleOfdelete btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
-					'<button type="button" class="RoleOfedit btn btn-default  btn-sm" style="margin-right:15px;">修改</button>'
+					'<button type="button" class="RoleOfview btn btn-default btn-sm">查看</button>',
+					'<button type="button" class="RoleOfdelete btn btn-default  btn-sm">删除</button>',
+					'<button type="button" class="RoleOfedit btn btn-default  btn-sm">修改</button>'
 				].join('');
 			},
 			events: {
@@ -125,7 +126,12 @@ $(function(){
 							});
 						}
 					});
-					UE.getEditor('editor').setContent(row.content, null);
+					//初始化文本编辑器
+					var ue = UE.getEditor('newsEditor');
+					ue.execCommand("clearlocaldata");
+					ue.ready(function() { 
+						ue.setContent(row.content); 
+					});
 					$('#saveNewsModal').modal('show');
 				},
 				'click .RoleOfview': function(e, value, row, index) {
@@ -133,80 +139,62 @@ $(function(){
 						type:"get",
 						url:"/news/viewNews?oid="+row.oid,
 						success: function(rst){
-							console.log(rst);
 							$.setDiv("#viewNewsInfo", rst);
-							console.log(rst.user.realName);
 							$("#columnTitle").html(rst.column.title);
 							$('#viewNewsModal').modal('show');
 						}
 					});
 				}
 			}
-		}],
-		rowStyle: function(row, index) {
-			var classesArr = ['success', 'info'];
-			var strclass = "";
-			if(index % 2 === 0) { //偶数行
-				strclass = classesArr[0];
-			} else { //奇数行
-				strclass = classesArr[1];
-			}
-			return {
-				classes: strclass
-			};
-		}, //隔行变色
+		}]
 	});
 	function queryParams(params) {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit: params.limit, //页面大小
-			offset: params.offset,
+			offset: (params.offset / params.limit) + 1,
 			title: $("#searchTitle").val(),
 			'column.oid': $("#searchNewsColumnOid").val(),
 			startTime: $("#searchStartInsertTime").val(),
 			endTime: $("#searchEndInsertTime").val()
 		};
-		console.log(temp);
 		return temp;
 	}
-	$("#search").on('click', function() {
+	$("#search").off('click').on('click', function() {
 		$("#newsTable").bootstrapTable('refresh');
 	})
-	
-	$("#addNewsBtn").click("on", function(){
+	$("#addNewsBtn").off('click').on("click", function(){
 		$("#saveNewsForm")[0].reset();
-		UE.getEditor('editor').execCommand("clearlocaldata");
-		UE.getEditor('editor').setContent("");
+		//初始化文本编辑器
+		var ue = UE.getEditor('newsEditor');
+		ue.execCommand("clearlocaldata");
+		ue.ready(function() { 
+			ue.setContent(''); 
+		});
 		$.ajax({
 			type:"get",
 			url:"/newsColumn/children",
 			dataType: "json",
 			success: function(rst){
-//				console.log(rst);
 				$.each(rst, function(name, ival) {
 					$("#columnOid").append("<option value='"+ival.oid+"'>"+ival.title+"</option>");
 				});
 				$("#saveNewsModal").modal("show");
 			}
 		});
-		UE.getEditor('editor').setHeight(300);
+//		UE.getEditor('newsEditor').setHeight(300);
 	});
-	$("#save").on("click", function() {
-		$("#saveNewsForm #content").val(UE.getEditor('editor').getContent());
-		console.log($('#saveNewsForm').serialize());
+	$("#save").off('click').on("click", function() {
+		$("#saveNewsForm #content").val(UE.getEditor('newsEditor').getContent());
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/news/save", //url
 			data: $('#saveNewsForm').serialize(),
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				if(rst.code == 0) {
 					$('#saveNewsModal').modal('hide');
 					$("#newsTable").bootstrapTable('refresh');
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})
