@@ -92,13 +92,13 @@
 								<div class="col-xs-9">
 									<div class="form-group">
 										<label class="control-label">消息标题</label>
-										<input type="text" class="form-control input-sm" id="title" name="title">
+										<input type="text" class="form-control input-sm required" id="title" name="title">
 									</div>
 								</div>
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">消息类型</label>
-										<select class="form-control input-sm" id="msgType" name="msgType">
+										<select class="form-control input-sm required" id="msgType" name="msgType">
 											<option value="">--请选择--</option>
 											<option value="0">普通消息</option>
 											<option value="1">系统消息</option>
@@ -110,7 +110,7 @@
 								<div class="col-xs-6">
 									<div class="form-group">
 										<label class="control-label">收件人</label>
-										<select id="receiverOids" name="receiverOids" class="selectpicker show-tick form-control" title="---请选择---" data-live-search="true" multiple>
+										<select id="receiverOids" name="receiverOids" class="selectpicker show-tick form-control required" data-live-search="true" multiple>
 										</select>
 									</div>
 								</div>
@@ -119,7 +119,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">消息内容</label>
-										<input type="hidden" id="content" name="content" />
+										<input type="hidden" class="required" id="content" name="content" />
 										<script id="msgEditor" type="text/plain" style="height:300px;"></script>
 									</div>
 								</div>

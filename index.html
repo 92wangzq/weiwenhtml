@@ -10,6 +10,7 @@
 		<link href="/css/style1.css" rel="stylesheet" />
 		<link href="/css/plugins/steps/jquery.steps.css" rel="stylesheet">
 		<link href="/css/plugins/morris/morris.css" rel="stylesheet">
+		<link href="/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 		<!-- 引入bootstrap-table样式 -->
 		<link href="/css/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
 		<!-- 引入bootstrap-datetimepicker样式 -->
@@ -222,6 +223,8 @@
 	<script src="/js/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<!-- colResizable -->
 	<script src="/js/colResizable-1.6.js"></script>
+	<!-- toastr -->
+	<script src="/js/plugins/toastr/toastr.min.js"></script>
 	<script>
 		$(function() {
 			var userName = $.cookie("userName");
@@ -295,7 +298,7 @@
 					$("#content").load(sId); //加载相对应的内容
 				}
 			}
-			loadInner("test.html");
+			loadInner("/personnelStatistical/personnelStatistical.html");
 
 			//首页top当前时间
 			setInterval(function() {
@@ -336,6 +339,19 @@
 				if(val < 10) return "0" + val;
 				return val;
 			}
+			toastr.options = {
+				"closeButton": false, //是否示关闭按钮
+				"debug": false, //是否使用debug模式
+				"positionClass": "toast-bottom-full-width", //弹出窗的位置
+				"showDuration": "300", //显示的动画时间
+				"hideDuration": "1000", //消失的动画时间
+				"timeOut": "5000", //展现时间
+				"extendedTimeOut": "1000", //加长展示时间
+				"showEasing": "swing", //显示时的动画缓冲方式
+				"hideEasing": "linear", //消失时的动画缓冲方式
+				"showMethod": "fadeIn", //显示时的动画方式
+				"hideMethod": "fadeOut", //消失时的动画方式
+			};
 		});
 	</script>
 

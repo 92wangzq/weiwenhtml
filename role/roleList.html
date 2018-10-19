@@ -14,7 +14,7 @@
 					</div>
 					<div class="ibox-content" style="">
 						<div id="toolbar" class="btn-group">
-							<button id="btn_addArea" type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveUserModal">
+							<button id="addRoleBtn" type="button" class="btn btn-primary">
 					             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
 					        </button>
 						</div>
@@ -23,7 +23,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="saveUserModal" tabindex="-1" role="dialog" aria-labelledby="saveUserModalLabel">
+		<div class="modal fade" id="saveRoleModal" tabindex="-1" role="dialog" aria-labelledby="saveRoleModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -31,44 +31,44 @@
 						<h4 class="modal-title">角色管理</h4>
 					</div>
 					<div class="modal-body">
-						<form id="saveUserForm">
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">角色名称</label>
-										<input type="text" class="form-control" id="realName" name="realName">
+						<div class="row">
+							<div class="col-lg-6">
+								<form id="saveRoleForm">
+									<input type="hidden" id="oid" name="oid" />
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="form-group">
+												<label class="control-label">中文名称</label>
+												<input type="text" class="form-control required" id="name" name="name">
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">英文名称</label>
-										<input type="text" class="form-control" id="userName" name="userName">
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="form-group">
+												<label class="control-label">英文名称</label>
+												<input type="text" class="form-control required" id="role" name="role">
+											</div>
+										</div>
 									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<div class="form-group">
+												<label class="control-label">角色描述</label>
+												<input type="text" class="form-control required" id="description" name="description">
+											</div>
+										</div>
+									</div>
+									<input type="hidden" id="permissionOids" name="permissionOids" />
+								</form>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label class="control-label">权限配置</label>
+									<div id="permissionTreeview"></div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">用户密码</label>
-										<input type="text" class="form-control" id="userPwd" name="userPwd">
-									</div>
-								</div>
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">用户类型</label>
-										<input type="text" class="form-control" id="userTypeOid" name="userTypeOid">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">行政区域</label>
-										<input type="text" class="form-control" id="areaOid" name="areaOid">
-									</div>
-								</div>
-							</div>
-						</form>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

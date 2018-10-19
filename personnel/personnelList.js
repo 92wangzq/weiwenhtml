@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+
 	//加载左侧treeView
 	$.ajax({
 		type: "get",
@@ -199,10 +199,10 @@ $(document).ready(function() {
 				'click .RoleOfedit': function(e, value, row, index) {
 					$("#savePersonnelForm")[0].reset();
 					$.setForm("#savePersonnelForm", row);
-					$("#operator").val($.cookie("user"));
+					$("#operator").val(row.user.realName);
 					if(row.area != null) {
 						$("#areaOid").val(row.area.oid);
-						$("#areaName").html(row.area.title);
+						$("#areaName").val(row.area.title);
 					}
 					$.ajax({
 						type: "get",
@@ -291,6 +291,7 @@ $(document).ready(function() {
 				},
 				'click .RoleOfview': function(e, value, row, index) {
 					$.setDiv("#viewPersonnelInfo", row);
+					$("#viewAreaName").val(row.area.title)
 					$("#viewPersonnelInfo #operator").html(row.user.realName);
 					if(row.area != null) {
 						$("#viewPersonnelInfo #viewAreaName").html(row.area.title);
@@ -420,8 +421,7 @@ $(document).ready(function() {
 		return temp;
 	}
 
-	$("#personnelTable").colResizable({
-	});
+	$("#personnelTable").colResizable({});
 
 	//绑定查询按钮事件
 	$("#search").off('click').on('click', function() {
@@ -494,7 +494,7 @@ $(document).ready(function() {
 			}, //隔行变色
 		});
 		$("#savePersonnelForm")[0].reset();
-		$("#operator").val($.cookie("user"));
+		$("#operator").val($.cookie("userName"));
 		$.ajax({
 			type: "get",
 			url: "/personnelType/children?pOid=0",
@@ -580,6 +580,8 @@ $(document).ready(function() {
 	});
 
 	$("#saveFamily").off('click').on("click", function() {
+		saveFamilyForm.validate().settings.ignore = ":disabled";
+		if(!saveFamilyForm.valid()) return;
 		var row = $.getFormJson('#saveFamilyForm');
 		$("#familyTable").bootstrapTable("append", row);
 		$("#saveFamilyForm")[0].reset();
@@ -587,6 +589,8 @@ $(document).ready(function() {
 	});
 
 	$("#save").off('click').on("click", function() {
+		form.validate().settings.ignore = ":disabled";
+		if(!form.valid()) return;
 		$("#familyJson").val(JSON.stringify($("#familyTable").bootstrapTable("getData")));
 		$.ajax({
 			type: "POST", //方法类型
@@ -597,6 +601,7 @@ $(document).ready(function() {
 				if(rst.code == 0) {
 					$('#savePersonnelModal').modal('hide');
 					$("#personnelTable").bootstrapTable('refresh');
+					toastr.success("成功!");
 				};
 			},
 			error: function() {
@@ -621,4 +626,40 @@ $(document).ready(function() {
 		});
 		$("body").addClass("modal-open");
 	});
+
+	var form = $("#savePersonnelForm");
+	//验证表单的正确性
+	form.validate({
+		errorPlacement: function errorPlacement(error, element) {
+			//			element.before(error);
+			if(element.is(":checkbox") || element.is(":radio")) {
+				error.appendTo(element.parent().parent());
+			} else {
+				error.insertAfter(element);
+			}
+		},
+		rules: {}
+	});
+	var saveFamilyForm = $("#saveFamilyForm");
+	//验证表单的正确性
+	saveFamilyForm.validate({
+		errorPlacement: function errorPlacement(error, element) {
+			//			element.before(error);
+			if(element.is(":checkbox") || element.is(":radio")) {
+				error.appendTo(element.parent().parent());
+			} else {
+				error.insertAfter(element);
+			}
+		},
+		rules: {}
+	});
+	//	jQuery.validator.addMethod("english", function(value, element) {
+	//		var chrnum = /^([a-zA-Z]+)$/;
+	//		return this.optional(element) || (chrnum.test(value));
+	//	}, "只能输入字母");
+	//	jQuery.validator.addMethod("isMobile", function(value, element) {
+	//		var length = value.length;
+	//		var mobile = /^1[34578]\d{9}$/; /*/^1(3|4|5|7|8)\d{9}$/*/
+	//		return this.optional(element) || (length == 11 && mobile.test(value));
+	//	}, "请正确填写您的手机号码");
 })

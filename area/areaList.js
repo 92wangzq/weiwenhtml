@@ -14,12 +14,10 @@ $(function(){
 				pageNumber: 1, //初始化加载第一页，默认第一页
 				pageSize: 10, //每页的记录行数（*）
 				pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
-				showPaginationSwitch: true,
 				contentType: "application/x-www-form-urlencoded",
-				strictSearch: true,
-				showRefresh: true, //是否显示刷新按钮
 				clickToSelect: true, //是否启用点击选中行
 				uniqueId: "oid",
+				toolbarAlign: "right",
 				columns: [{
 					title: '序号',
 					width: '80',
@@ -39,24 +37,11 @@ $(function(){
 					events: operateEvents,
 					formatter: function() {
 						return [
-							'<button type="button" class="RoleOfview btn btn-primary btn-sm" style="margin-right:15px;">查看</button>',
 							'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>',
 							'<button type="button" class="RoleOfedit btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>'
 						].join('');
 					}
-				}],//每一行的唯一标识，一般为主键列,
-				rowStyle: function(row, index) {
-					var classesArr = ['success', 'info'];
-					var strclass = "";
-					if(index % 2 === 0) { //偶数行
-						strclass = classesArr[0];
-					} else { //奇数行
-						strclass = classesArr[1];
-					}
-					return {
-						classes: strclass
-					};
-				}
+				}]
 			});
 		}
 		//得到查询的参数
@@ -74,14 +59,21 @@ $(function(){
 			
 		},
 		'click .RoleOfdelete': function(e, value, row, index) {
-			$.ajax({
-				type:"get",
-				url:"/area/remove?oid="+row.oid,
-				contentType: "application/json; charset=utf-8",
-				success: function() {
-					$("#areaTable").bootstrapTable('refresh');
+			Ewin.confirm({
+				message: "确认要删除选择的数据吗？"
+			}).on(function(e) {
+				if(!e) {
+					return;
 				}
-			});
+				$.ajax({
+					type:"get",
+					url:"/area/remove?oid="+row.oid,
+					contentType: "application/json; charset=utf-8",
+					success: function() {
+						$("#areaTable").bootstrapTable('refresh');
+					}
+				});
+			})
 		},
 		'click .RoleOfedit': function() {
 			

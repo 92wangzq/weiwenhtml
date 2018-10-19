@@ -15,6 +15,7 @@ $(function() {
 		strictSearch: true,
 		clickToSelect: true, //是否启用点击选中行
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
+		toolbarAlign: "right",
 		columns: [{
 			title: '序号',
 			formatter: function(value, row, index) {
@@ -30,11 +31,18 @@ $(function() {
 			field: 'area.title',
 			title: '所属区域'
 		}, {
+			field: 'state',
+			title: '状态',
+			formatter: function(value) {
+				if(value == "Normal") {
+					return "正常";
+				} else if(value == "Frozen") {
+					return "冻结"
+				}
+			}
+		}, {
 			field: 'insertTime',
 			title: '创建时间'
-		}, {
-			field: 'updateTime',
-			title: '修改时间'
 		}, {
 			field: 'operate',
 			title: '操作',
@@ -42,69 +50,232 @@ $(function() {
 			width: '200',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfview btn btn-primary btn-sm" style="margin-right:15px;">查看</button>',
-					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>',
-					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>'
+					'<button type="button" class="RoleOfview btn btn-primary btn-sm">查看</button>',
+					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>',
+					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>'
 				].join('');
 			},
 			events: {
-				'click .RoleOfview': function() {
-			
-				},
-				'click .RoleOfdelete': function(e, value, row, index) {
+				'click .RoleOfview': function(e, value, row, index) {
 					$.ajax({
-						type:"get",
-						url:"/userType/remove?oid="+row.oid,
-						contentType: "application/json; charset=utf-8",
-						success: function() {
-							$("#userTable").bootstrapTable('refresh');
+						type: "get",
+						url: "/user/viewUser?oid=" + row.oid,
+						dataType: "json",
+						contentType: "application/json; charset=utf8",
+						success: function(data) {
+							$.setDiv("#viewUserInfo", data);
+							$("#viewOid").val(data.oid);
+							$("#viewAreaName").html(data.area.title);
+							if(data.state == "Normal") {
+								$("#viewState").html("正常");
+							} else if(data.state == "Frozen") {
+								$("#viewState").html("冻结");
+							} else {
+								$("#viewState").html("已删除");
+							}
+							var roleNames = "";
+							$.each(data.roles, function(n, role) {
+								if(roleNames == "") {
+									roleNames += role.name;
+								} else {
+									roleNames += "," + role.name;
+								}
+							});
+							$("#viewRoleNames").html(roleNames);
+							if(data.state == "Normal") {
+								$("#frozen").show();
+								$("#thaw").hide();
+							} else {
+								$("#frozen").hide()
+								$("#thaw").show()
+							}
 						}
 					});
+					$("#viewUserModal").modal("show");
 				},
-				'click .RoleOfedit': function() {
-					
+				'click .RoleOfdelete': function(e, value, row, index) {
+					Ewin.confirm({
+						message: "确认要删除选中数据吗？"
+					}).on(function(e) {
+						if(!e) {
+							return;
+						}
+						$.ajax({
+							type: "get",
+							url: "/user/remove?oid=" + row.oid,
+							contentType: "application/json; charset=utf-8",
+							success: function() {
+								$("#userTable").bootstrapTable('refresh');
+							}
+						});
+					});
+				},
+				'click .RoleOfedit': function(e, value, row, index) {
+					$.ajax({
+						type: "get",
+						url: "/user/viewUser?oid=" + row.oid,
+						dataType: "json",
+						contentType: "application/json; charset=utf8",
+						success: function(data) {
+							$.setForm("#saveUserForm", data);
+							$("#areaName").val(data.area.title);
+							$("#areaOid").val(data.area.oid);
+							$("#userPwd").attr("readonly", "readonly");
+							$.ajax({
+								type: "get",
+								url: "/system/roleList?limit=0&offset=100000",
+								dataType: "json",
+								success: function(rst) {
+									var op = "";
+									$.each(rst.rows, function(n, val) {
+										op += "<option value='" + val.oid + "'>" + val.name + "</option>";
+									});
+									$("#roleOids").html(op);
+									$('#roleOids').selectpicker('refresh');
+									var roles = new Array(data.roles.length);
+									$.each(data.roles, function(n, val) {
+										roles[n] = val.oid;
+									});
+									$("#roleOids").val(roles);
+									$("#roleOids").selectpicker("refresh");
+								}
+							});
+						}
+					});
+					$("#saveUserModal").modal("show");
 				}
 			}
-		}],
-		rowStyle: function(row, index) {
-			var classesArr = ['success', 'info'];
-			var strclass = "";
-			if(index % 2 === 0) { //偶数行
-				strclass = classesArr[0];
-			} else { //奇数行
-				strclass = classesArr[1];
-			}
-			return {
-				classes: strclass
-			};
-		}
+		}]
 	});
+
 	function queryParams(params) {
-		console.log(params);
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit: params.limit, //页面大小
-			offset: (params.offset / params.limit) + 1
+			offset: (params.offset / params.limit) + 1,
+			realName: $("#searchRealName").val(),
+			userName: $("#searchUserName").val(),
+			state: $("#searchState").val()
 		};
-		console.log(temp);
 		return temp;
 	}
-	$("#save").click("on", function(){
-		console.log($('#saveUserForm').serialize());
+
+	$("#search").off("click").on("click", function() {
+		$("#userTable").bootstrapTable('refresh');
+	});
+
+	var form = $("#saveUserForm");
+	//验证表单的正确性
+	form.validate({
+		errorPlacement: function errorPlacement(error, element) {
+			//			element.before(error);
+			if(element.is(":checkbox") || element.is(":radio")) {
+				error.appendTo(element.parent().parent());
+			} else {
+				error.insertAfter(element);
+			}
+		},
+		rules: {}
+	});
+
+	$("#addUserBtn").off("click").on("click", function() {
+		$("#saveUserForm")[0].reset();
+		$("#userPwd").removeAttr("readonly");
+		$.ajax({
+			type: "get",
+			url: "/system/roleList?limit=0&offset=100000",
+			dataType: "json",
+			success: function(rst) {
+				var op = "";
+				$.each(rst.rows, function(n, val) {
+					op += "<option value='" + val.oid + "'>" + val.name + "</option>";
+				});
+				$("#roleOids").html(op);
+				$('#roleOids').selectpicker('refresh');
+			}
+		});
+		$("#saveUserModal").modal("show");
+	});
+
+	$("#areaName").off('click').click('on', function(event) {
+		$.ajax({
+			type: "get",
+			dataType: "json", //预期服务器返回的数据类型
+			url: "/area/children", //url
+			success: function(rst) {
+				$("#areaTree").treeview({
+					data: rst,
+					onNodeSelected: function(event, data) {
+						$("#areaName").val(data.title);
+						$("#areaOid").val(data.oid);
+						$("#areaModal").modal("hide");
+					}
+				});
+				$("#areaModal").modal("show");
+			},
+			error: function() {
+				alert("异常！");
+			}
+		});
+	});
+
+	$('.modal').on('hidden.bs.modal', function() {
+		$("body").addClass("modal-open");
+	});
+
+	$("#save").click("on", function() {
+		form.validate().settings.ignore = ":disabled";
+		if(!form.valid()) return;
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/user/save", //url
 			data: $('#saveUserForm').serialize(),
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				if(rst.code == 0) {
 					$('#saveUserModal').modal('hide');
 					$("#userTable").bootstrapTable('refresh');
+					toastr.success("成功!");
 				};
 			},
 			error: function() {
 				alert("异常！");
 			}
 		});
-	})
+	});
+
+	$("#frozen").off("click").on("click", function() {
+		$.ajax({
+			type: "get",
+			url: "/user/editState?state=Frozen&oid=" + $("#viewOid").val(),
+			dataType: "json",
+			contentType: "application/json; charset=utf8",
+			success: function(rst) {
+				if(rst.code == "0") {
+					toastr.success("成功!");
+				} else {
+					toastr.error(rst.message);
+				}
+			}
+		});
+		$("#viewUserModal").modal("hide");
+		$("#userTable").bootstrapTable('refresh');
+	});
+
+	$("#thaw").off("click").on("click", function() {
+		$.ajax({
+			type: "get",
+			url: "/user/editState?state=Normal&oid=" + $("#viewOid").val(),
+			dataType: "json",
+			contentType: "application/json; charset=utf8",
+			success: function(rst) {
+				if(rst.code == "0") {
+					toastr.success("成功!");
+				} else {
+					toastr.error(rst.message);
+				}
+			}
+		});
+		$("#viewUserModal").modal("hide");
+		$("#userTable").bootstrapTable('refresh');
+	});
 });

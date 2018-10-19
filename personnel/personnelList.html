@@ -113,13 +113,13 @@
 								<div class="col-xs-4">
 									<div class="form-group">
 										<label class="control-label">操作员</label>
-										<input type="text" class="form-control input-sm" id="operator" readonly="readonly">
+										<input type="text" class="form-control input-sm required" id="operator" readonly>
 									</div>
 								</div>
 								<div class="col-xs-8">
 									<div class="form-group">
 										<label class="control-label">行政区域</label>
-										<input type="text" class="form-control input-sm" id="areaName" readonly/>
+										<input type="text" class="form-control input-sm required" id="areaName" readonly/>
 										<input type="hidden" id="areaOid" name="area.oid" />
 									</div>
 								</div>
@@ -130,13 +130,13 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">姓名</label>
-										<input type="text" class="form-control input-sm" id="realname" name="realName">
+										<input type="text" class="form-control input-sm required" id="realname" name="realName">
 									</div>
 								</div>
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">性别</label>
-										<select class="form-control input-sm" id="sex" name="sex">
+										<select class="form-control input-sm required" id="sex" name="sex">
 											<option value="">===请选择===</option>
 											<option value="1">男</option>
 											<option value="0">女</option>
@@ -146,7 +146,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">民族</label>
-										<select id="nation" name="nation" class="form-control input-sm">
+										<select id="nation" name="nation" class="form-control input-sm required">
 											<option value="">===请选择===</option>
 											<option value="HZ">汉族</option>
 											<option value="MZ">蒙族</option>
@@ -156,7 +156,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">政治面貌</label>
-										<select id="politicalStatus" name="politicalStatus" class="form-control input-sm">
+										<select id="politicalStatus" name="politicalStatus" class="form-control input-sm required">
 											<option value="">===请选择===</option>
 											<option value="QZ">群众</option>
 											<option value="TY">团员</option>
@@ -169,7 +169,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">人员类别</label>
-										<select class="form-control input-sm" id="personnelTypeParent">
+										<select class="form-control input-sm required" id="personnelTypeParent">
 											<option value="">===请选择===</option>
 										</select>
 									</div>
@@ -177,7 +177,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">&nbsp;</label>
-										<select class="form-control input-sm" id="personnelType" name="type.oid">
+										<select class="form-control input-sm required" id="personnelType" name="type.oid">
 											<option value="">===请选择===</option>
 										</select>
 									</div>
@@ -185,7 +185,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">现实状态</label>
-										<select class="form-control input-sm" id="realState" name="realState">
+										<select class="form-control input-sm required" id="realState" name="realState">
 											<option value="">===请选择===</option>
 											<option value="XSBF">息诉罢访</option>
 											<option value="WKZ">稳控中</option>
@@ -196,7 +196,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">信访次数</label>
-										<select class="form-control input-sm" id="more" name="more">
+										<select class="form-control input-sm required" id="more" name="more">
 											<option value="0">===请选择===</option>
 											<option value="1">一次</option>
 											<option value="2">两次</option>
@@ -210,7 +210,7 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">风险等级</label>
-										<select class="form-control input-sm" id="riskRating" name="riskRating">
+										<select class="form-control input-sm required" id="riskRating" name="riskRating">
 											<option value="">===请选择===</option>
 											<option value="green">绿色</option>
 											<option value="orange">橙色</option>
@@ -232,13 +232,13 @@
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">身份证号</label>
-										<input type="text" class="form-control input-sm" id="identitycCard" name="identityCard">
+										<input type="text" class="form-control input-sm required" maxlength="18" minlength="18" id="identitycCard" name="identityCard">
 									</div>
 								</div>
 								<div class="col-xs-3">
 									<div class="form-group">
 										<label class="control-label">联系方式</label>
-										<input type="text" class="form-control input-sm" id="telephone" name="telephone">
+										<input type="text" class="form-control input-sm required" isMobile="true" id="telephone" name="telephone">
 									</div>
 								</div>
 							</div>
@@ -246,7 +246,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">工作地址</label>
-										<input type="text" class="form-control input-sm" id="workUnit" name="workUnit">
+										<input type="text" class="form-control input-sm required" id="workUnit" name="workUnit">
 									</div>
 								</div>
 							</div>
@@ -254,7 +254,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">户籍所在地</label>
-										<input type="text" class="form-control input-sm" id="domicile" name="domicile">
+										<input type="text" class="form-control input-sm required" id="domicile" name="domicile">
 									</div>
 								</div>
 							</div>
@@ -262,7 +262,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">现住址</label>
-										<input type="text" class="form-control input-sm" id="present" name="present">
+										<input type="text" class="form-control input-sm required" id="present" name="present">
 									</div>
 								</div>
 							</div>
@@ -270,7 +270,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">涉稳事件及诉求</label>
-										<input type="text" class="form-control input-sm" id="eventAppeals" name="eventAppeals">
+										<input type="text" class="form-control input-sm required" id="eventAppeals" name="eventAppeals">
 									</div>
 								</div>
 							</div>
@@ -278,7 +278,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">信访经历及处置结果</label>
-										<textarea class="form-control input-sm" rows="3" id="experienceResults" name="experienceResults"></textarea>
+										<textarea class="form-control input-sm required" rows="3" id="experienceResults" name="experienceResults"></textarea>
 									</div>
 								</div>
 							</div>
@@ -332,13 +332,13 @@
 								<div class="col-xs-6">
 									<div class="form-group">
 										<label class="control-label">重点人员关系</label>
-										<input type="text" class="form-control input-sm" id="relationship" name="relationship">
+										<input type="text" class="form-control input-sm required" id="relationship" name="relationship">
 									</div>
 								</div>
 								<div class="col-xs-6">
 									<div class="form-group">
 										<label class="control-label">姓名</label>
-										<input type="text" class="form-control input-sm" id="realName" name="realName">
+										<input type="text" class="form-control input-sm required" id="realName" name="realName">
 									</div>
 								</div>
 							</div>
@@ -346,7 +346,7 @@
 								<div class="col-xs-6">
 									<div class="form-group">
 										<label class="control-label">民族</label>
-										<select id="nation" name="nation" class="form-control input-sm">
+										<select id="nation" name="nation" class="form-control input-sm required">
 											<option value="">===请选择===</option>
 											<option value="HZ">汉族</option>
 											<option value="MZ">蒙族</option>
@@ -356,7 +356,7 @@
 								<div class="col-xs-6">
 									<div class="form-group">
 										<label class="control-label">身份证号</label>
-										<input type="text" class="form-control input-sm" id="identityCard" name="identityCard">
+										<input type="text" class="form-control input-sm required" id="identityCard" name="identityCard" maxlength="18" minlength="18">
 									</div>
 								</div>
 							</div>
@@ -364,13 +364,13 @@
 								<div class="col-xs-4">
 									<div class="form-group">
 										<label class="control-label">联系方式</label>
-										<input type="text" class="form-control input-sm" id="telephone" name="telephone">
+										<input type="text" class="form-control input-sm required" isMobile="true" id="telephone" name="telephone">
 									</div>
 								</div>
 								<div class="col-xs-8">
 									<div class="form-group">
 										<label class="control-label">工作单位</label>
-										<input type="text" class="form-control input-sm" id="workUnit" name="workUnit">
+										<input type="text" class="form-control input-sm required" id="workUnit" name="workUnit">
 									</div>
 								</div>
 							</div>
@@ -378,7 +378,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">户籍所在地</label>
-										<input type="text" class="form-control input-sm" id="domicile" name="domicile">
+										<input type="text" class="form-control input-sm required" id="domicile" name="domicile">
 									</div>
 								</div>
 							</div>
@@ -386,7 +386,7 @@
 								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="control-label">现住址</label>
-										<input type="text" class="form-control input-sm" id="present" name="present">
+										<input type="text" class="form-control input-sm required" id="present" name="present">
 									</div>
 								</div>
 							</div>
