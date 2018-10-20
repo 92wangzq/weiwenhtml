@@ -9,7 +9,7 @@ $(document).ready(function() {
 			$("#areaTreeView").treeview({
 				data: rst,
 				showBorder: false,
-				levels: 3,
+				levels: 1,
 				onNodeSelected: function(event, data) {
 					$("#searchAreaOid").val(data.oid);
 					$("#personnelTable").bootstrapTable('refresh');
@@ -64,7 +64,6 @@ $(document).ready(function() {
 		pageSize: 10, //每页的记录行数（*）
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
 		toolbar: '#toolbar', //工具按钮用哪个容器
-		toolbarAlign: "right",
 		striped: true, //隔行变色
 		columns: [{
 			title: '序号',

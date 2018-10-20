@@ -19,8 +19,8 @@
 		<link href="/css/bootstrap/bootstrap-select/bootstrap-select.min.css" rel="stylesheet">
 		<style>
 			thead {
-				background-color: #428BCA;
-				color: #FFFFFF;
+				background-color: #CCCCCC;
+				color: #444444;
 				text-align: center;
 			}
 			
@@ -49,38 +49,102 @@
 			</div>
 			<div class="pace-activity"></div>
 		</div>
+		<div class="" style="">
+			<nav class="navbar navbar-static-top white-bg" role="navigation" style="background-color: #45aeea;">
+				<div class="navbar-header">
+					<a class="navbar-minimalize minimalize-styl-2 btn btn-circle " href="#"><i class="fa fa-bars"></i></a>
+				</div>
+				<div class="navbar-header" style="color: #FFFFFF;margin-top: 11px;">
+					<img src="/img/timg.png" width="65%"/>
+				</div>
+				<ul class="nav navbar-top-links navbar-right" style="">
+					<li>
+						<span id="nowTime" class="m-r-sm text-muted welcome-message" style="color: #FFFFFF;font-family:'宋体'"></span>
+					</li>
+					<li style="color: #FFFFFF;font-family:'宋体'">
+						<span>修改密码</span>
+					</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+							<i class="fa fa-envelope fa-lg"></i> <span class="label label-warning">16</span>
+						</a>
+						<ul class="dropdown-menu dropdown-messages">
+							<li>
+								<div class="dropdown-messages-box">
+									<a href="profile.html" class="pull-left">
+										<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a7.jpg">
+									</a>
+									<div>
+										<small class="pull-right">46小时前</small>
+										<strong>小明</strong> 评论了 <strong>小红</strong>. <br>
+										<small class="text-muted">2017.10.06 7:58</small>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="dropdown-messages-box">
+									<a href="profile.html" class="pull-left">
+										<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a4.jpg">
+									</a>
+									<div class="media-body ">
+										<small class="pull-right text-navy">5小时前</small>
+										<strong>小红</strong> 打电话给了 <strong>小黑</strong>. <br>
+										<small class="text-muted">2017.10.06 7:58</small>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="dropdown-messages-box">
+									<a href="profile.html" class="pull-left">
+										<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/profile.jpg">
+									</a>
+									<div class="media-body ">
+										<small class="pull-right">23小时前</small>
+										<strong>小黑</strong> 点赞了 <strong>小红</strong>. <br>
+										<small class="text-muted">2017.10.06 7:58</small>
+									</div>
+								</div>
+							</li>
+							<li class="divider"></li>
+							<li>
+								<div class="text-center link-block">
+									<a href="mailbox.html">
+										<i class="fa fa-envelope"></i> <strong>阅读所有消息</strong>
+									</a>
+								</div>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="login.html" style="color: #FFFFFF;">
+							<i class="fa fa-sign-out"></i> 注销
+						</a>
+					</li>
+				</ul>
+			</nav>
+        </div>
 		<div id="wrapper">
+			
 			<nav class="navbar-default navbar-static-side" role="navigation">
 				<div class="sidebar-collapse">
 					<ul class="nav metismenu" id="side-menu">
 						<li class="nav-header">
-							<div class="dropdown profile-element"> <span>
-                             </span>
+							<div class="dropdown profile-element">
+								<span>
+									<img src="/img/user.png" style="float: left;" width="40"/>
+                             	</span>
 								<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-									<span class="clear"> 
-										<span class="block m-t-xs"> 
-											<strong class="font-bold" id="loginInfo">王宇</strong>
+									<span class="clear">
+										<span class="block m-t-xs" style="float: left; margin-left: 10px; margin-top: 0px; font-size: 14px;"> 
+											<strong class="font-bold" id="loginInfo"></strong>
 			                            </span>
-									<span class="text-muted text-xs block">
-			                            	管理员<b class="caret"></b>
+										<span class="block m-t-xs"style="margin-left: 10px;">
+			                            	
 			                            </span>
 									</span>
 								</a>
-								<ul class="dropdown-menu animated fadeInRight m-t-xs">
-									<li>
-										<a href="profile.html">个人信息</a>
-									</li>
-									<li>
-										<a href="contacts.html">好友</a>
-									</li>
-									<li>
-										<a href="mailbox.html">信箱</a>
-									</li>
-									<li class="divider"></li>
-									<li>
-										<a href="login.html">登出</a>
-									</li>
-								</ul>
 							</div>
 							<div class="logo-element">
 								维稳
@@ -91,87 +155,6 @@
 			</nav>
 			<div id="page-wrapper" class="gray-bg">
 				<div class="row border-bottom">
-					<div class="row border-bottom">
-						<nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-							<div class="navbar-header">
-								<a class="navbar-minimalize minimalize-styl-2 btn btn-circle " href="#"><i class="fa fa-bars"></i></a>
-							</div>
-							<ul class="nav navbar-top-links navbar-right">
-								<li>
-									<span id="nowTime" class="m-r-sm text-muted welcome-message"></span>
-								</li>
-								<li>
-									<span class="m-r-sm text-muted welcome-message">修改密码</span>
-								</li>
-								<li class="dropdown">
-									<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-										<i class="fa fa-envelope"></i> <span class="label label-warning">16</span>
-									</a>
-									<ul class="dropdown-menu dropdown-messages">
-										<li>
-											<div class="dropdown-messages-box">
-												<a href="profile.html" class="pull-left">
-													<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a7.jpg">
-												</a>
-												<div>
-													<small class="pull-right">46小时前</small>
-													<strong>小明</strong> 评论了 <strong>小红</strong>. <br>
-													<small class="text-muted">2017.10.06 7:58</small>
-												</div>
-											</div>
-										</li>
-										<li class="divider"></li>
-										<li>
-											<div class="dropdown-messages-box">
-												<a href="profile.html" class="pull-left">
-													<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a4.jpg">
-												</a>
-												<div class="media-body ">
-													<small class="pull-right text-navy">5小时前</small>
-													<strong>小红</strong> 打电话给了 <strong>小黑</strong>. <br>
-													<small class="text-muted">2017.10.06 7:58</small>
-												</div>
-											</div>
-										</li>
-										<li class="divider"></li>
-										<li>
-											<div class="dropdown-messages-box">
-												<a href="profile.html" class="pull-left">
-													<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/profile.jpg">
-												</a>
-												<div class="media-body ">
-													<small class="pull-right">23小时前</small>
-													<strong>小黑</strong> 点赞了 <strong>小红</strong>. <br>
-													<small class="text-muted">2017.10.06 7:58</small>
-												</div>
-											</div>
-										</li>
-										<li class="divider"></li>
-										<li>
-											<div class="text-center link-block">
-												<a href="mailbox.html">
-													<i class="fa fa-envelope"></i> <strong>阅读所有消息</strong>
-												</a>
-											</div>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a href="login.html">
-										<i class="fa fa-sign-out"></i> 注销
-									</a>
-								</li>
-							</ul>
-							<ul class="nav navbar-top-links navbar-left">
-								<li>
-									<h2></h2></li>
-							</ul>
-							<ul class="nav navbar-top-links navbar-left">
-								<li>
-									<h2>通辽市维稳信息管理系统</h2></li>
-							</ul>
-						</nav>
-					</div>
 					<div class="wrapper wrapper-content animated fadeInRight" id="content">
 					</div>
 					<div class="footer">
@@ -232,7 +215,7 @@
 			if(!userName) {
 				window.location.href = '/login.html';
 			} else {
-				$("#loginInfo").html($.cookie("userName"));
+				$("#loginInfo").html($.cookie("userName")+"<br/><span style='font-size: 8px; margin-top: 20px;'>管理员</span>");
 			}
 
 			//退出登录
@@ -255,25 +238,25 @@
 				success: function(rst) {
 					var menu = ""; //定义变量存储            
 					$.each(rst, function(n, val) {
-						menu += '<li>'
-						menu += '<a href="#"><i class="fa fa-sitemap"></i><span class="nav-label">' + val.name + '</span><span class="fa arrow"></span></a>'
+						menu += '<li style="font-size: 15px;">'
+						menu += '<a href="#"><i class="fa fa-sitemap fa-lg"></i><span class="nav-label">' + val.name + '</span><span class="fa arrow fa-lg"></span></a>'
 						menu += '<ul class="nav nav-second-level collapse userMenu" style="height: 0px;">';
 						if(val.permissions != null) {
 							$.each(val.permissions, function(n, two) {
 								if(two.permissions != null) {
 									menu += '<li>';
-									menu += '<a href="#">' + two.name + '<span class="fa arrow"></span></a>'
+									menu += '<a href="#"><i class="fa fa-sitemap"></i>' + two.name + '<span class="fa arrow"></span></a>'
 									menu += '<ul class="nav nav-third-level collapse userMenu">';
 									$.each(two.permissions, function(n, three) {
-										menu += '<li>';
-										menu += '<a data-id="' + three.url + '">' + three.name + '</a>'
+										menu += '<li style="line-height:20px;">';
+										menu += '<a style="padding-left: 80px;" data-id="' + three.url + '"><i class="fa fa-sitemap"></i>' + three.name + '</a>'
 										menu += '</li>';
 									});
 									menu += '</ul>';
 									menu += '</li>';
 								} else {
-									menu += '<li>';
-									menu += '<a data-id="' + two.url + '">' + two.name + '</a>';
+									menu += '<li style="line-height:20px;">';
+									menu += '<a data-id="' + two.url + '"><i class="fa fa-sitemap"></i>' + two.name + '</a>';
 									menu += '</li>';
 								}
 							})

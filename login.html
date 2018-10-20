@@ -12,41 +12,85 @@
 		<link href="/css/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
 		<link href="/css/animate.css" rel="stylesheet" />
-		<link href="/css/style.css" rel="stylesheet" />
+		<link href="/css/style1.css" rel="stylesheet" />
 		<!-- 引入bootstrap-table样式 -->
 		<link href="/css/bootstrap/bootstrap-table/bootstrap-table.css" rel="stylesheet">
 		<!-- 引入bootstrap-datetimepicker样式 -->
 		<link href="/css/bootstrap/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
-
+		<style type="text/css">
+			.qrcode-show-icon {
+				position: absolute;
+				z-index: 2;
+				top: 70px;
+				right: 20px;
+				font-size: 14px;
+				cursor: pointer;
+				padding-left: 21px;
+			}
+			
+			.login-bg-img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 1920px;
+				/* height: 1200px; */
+			}
+			
+			.login-header {
+				position: absolute;
+				top: 0;
+				z-index: 10;
+				width: 110%;
+			}
+			
+			.login-wrap {
+				position: absolute;
+				z-index: 10;
+				top: 150px;
+				right: 400px;
+			}
+			
+			.login-frame-title {
+				
+				margin-bottom: 55px;
+				font-size: 30px;
+				text-align: center;
+				color: #45aeea !important;
+			}
+			
+			.submit-btn {
+				width: 100%;
+				height: 50px;
+				margin-top: 50px;
+				font-size: 20px;
+				font-weight: bold;
+			}
+		</style>
 	</head>
 
 	<body class="gray-bg">
-
-		<div class="middle-box text-center loginscreen animated fadeInDown">
-			<div>
-				<div>
-					<h2 class="logo-name">维稳</h2>
-				</div>
-				<h3>欢迎使用维稳信息管理平台</h3>
-				<p>
-					维稳工作
-				</p>
-				<p>Login in. To see it in action.</p>
+		<img class="login-bg-img" id="loginBgImg" src="http://172.16.1.10/views/home/css/images/login.png?1540013405044" style="left: -1px; top: -210px;">
+		<div class="row wrapper border-bottom page-heading login-header" style="">
+			<nav class="navbar navbar-static-top white-bg" role="navigation" style="background-color: #45aeea;">
+				<ul class="nav navbar-top-links navbar-left" style="">
+					<li style="color: #FFFFFF;padding-left: 280px;margin-top: 11px;">
+						<img src="/img/timg.png" width="70%"/>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		<div class="middle-box text-center loginscreen animated fadeInDown login-wrap" style="height: 480px; background-color: #FFFFFF;width:500px;">
+			<div style="width: 70%;margin: auto;">
 				<form id="loginForm" class="m-t" role="form">
+					<div class="login-frame-title skin-color">欢迎登录</div>
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="account" name="loginName" required="" />
+						<input type="text" class="form-control input-lg" placeholder="用户名" name="loginName" required="" />
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" placeholder="password" name="loginPwd" required="" />
+						<input type="password" class="form-control input-lg" placeholder="密码" name="loginPwd" required="" />
 					</div>
-					<button id="login" type="button" class="btn btn-primary block full-width m-b">Login</button>
-					<p class="text-muted text-center">
-						<small>Do not have an account?</small>
-					</p>
+					<button id="login" type="button" class="btn btn-primary block full-width m-b submit-btn">登录</button>
 				</form>
-				<p class="m-t">
-					<small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>
-				</p>
 			</div>
 		</div>
 
@@ -58,7 +102,7 @@
 
 		<script th:inline="javascript">
 			$(document).ready(function() {
-				$("#login").click("on", function(){
+				$("#login").click("on", function() {
 					$.ajax({
 						type: "POST", //方法类型
 						dataType: "json", //预期服务器返回的数据类型
@@ -67,7 +111,7 @@
 						success: function(rst) {
 							console.log(rst); //打印服务端返回的数据(调试用)
 							if(rst.code == 0) {
-								window.location.href="index.html";
+								window.location.href = "index.html";
 							} else {
 								alert(rst.message);
 							}
@@ -78,7 +122,6 @@
 					});
 				})
 			});
-			
 		</script>
 	</body>
 

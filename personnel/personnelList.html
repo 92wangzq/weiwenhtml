@@ -20,13 +20,13 @@
 								<div class="ibox float-e-margins">
 									<div class="ibox-content mailbox-content">
 										<div class="file-manager">
-											<div id="areaTreeView"></div>
+											<div id="areaTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-10 animated fadeInRight">
-								<div class="box-header">
+								<div class="box-header" style="margin-top: 10px;">
 					                <form id="searchPersonnelForm" action="/personnel/exportStuInfoExcel">
 										<input type="hidden" value="" id="searchAreaOid" />
 										<div class="row">
@@ -74,9 +74,15 @@
 												</div>
 											</div>
 											<div class="col-xs-1">
-												<div class="form-group" id="area">
+												<div class="form-group" id="">
 													<label class="control-label">&nbsp;</label>
-													<button id="search" type="button" class="btn btn-default form-control input-sm">查询</button>
+													<button id="search" type="button" class="btn btn-primary btn-sm">查询</button>
+												</div>
+											</div>
+											<div class="col-xs-1">
+												<div class="form-group" id="">
+													<label class="control-label">&nbsp;</label>
+													<button type="reset" class="btn btn-default btn-sm">重置</button>
 												</div>
 											</div>
 										</div>
