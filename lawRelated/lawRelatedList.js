@@ -1,5 +1,39 @@
 $(function() {
-
+	var userName = $.cookie("userName");
+	if(!userName) {
+		Ewin.confirm({
+			message: "登录超时，请重新登录"
+		}).on(function(e) {
+			if(!e) {
+				return;
+			}
+			window.location.href = '/login.html';
+		});
+	}
+	//加载左侧treeView
+	$.ajax({
+		type: "get",
+		dataType: "json", //预期服务器返回的数据类型
+		url: "/area/children", //url
+		success: function(rst) {
+			$("#areaTreeView").treeview({
+				data: rst,
+				showBorder: false,
+				levels: 2,
+				expandIcon: "glyphicon glyphicon-menu-right",
+				collapseIcon: "glyphicon glyphicon-menu-down",
+				emptyIcon: "glyphicon glyphicon-stop",
+				onNodeSelected: function(event, data) {
+					$("#searchAreaOid").val(data.oid);
+					$("#lawRelatedTable").bootstrapTable('refresh');
+				},
+				onNodeUnselected: function(event, data) {
+					$("#searchAreaOid").val("");
+					$("#lawRelatedTable").bootstrapTable('refresh');
+				}
+			});
+		}
+	});
 	$("#lawRelatedTable").bootstrapTable({
 		url: '/lawRelated/lawRelatedList', //请求后台的URL（*）
 		method: 'get', //请求方式（*）
@@ -80,7 +114,7 @@ $(function() {
 				}
 			}
 		}, {
-			field: 'powerAffairsUnit',
+			field: 'powerAffairsUnit.dictDataName',
 			title: '事权单位'
 		}, {
 			field: 'attendTo',
@@ -95,14 +129,15 @@ $(function() {
 			width: '200',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfview btn btn-primary btn-sm" style="margin-right:15px;">查看</button>',
-					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>',
-					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>'
+					'<button type="button" class="RoleOfview btn btn-primary btn-sm">查看</button>',
+					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>',
+					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>'
 				].join('');
 			},
 			events: {
 				'click .RoleOfview': function(e, value, row, index) {
 					$.setDiv("example-basic", row);
+					$("#searchPowerAffairsUnit").html(row.powerAffairsUnit.dictDataName);
 					$.ajax({
 						type:"get",
 						url:"/lawRelated/viewLawRelated?oid="+row.oid,
@@ -124,6 +159,21 @@ $(function() {
 						success: function(rst) {
 							$("#saveLawRelatedForm")[0].reset();
 							$.setForm("#saveLawRelatedForm", rst);
+							if (rst.powerAffairsUnit != null) {
+								$("#parentDictionary").val(rst.powerAffairsUnit.parent.oid);
+								$.ajax({
+									type:"get",
+									url:"/dictionary/searchChildDictionaryDatas?parentOid="+rst.powerAffairsUnit.parent.oid,
+									success: function(result) {
+										var powerAffairsUnit = "<option value=''>===请选择===</option>";
+										$(result).each(function(i, item) {
+											powerAffairsUnit += "<option value='"+item.oid+"'>"+item.dictDataName+"</option>";
+										});
+										$("#powerAffairsUnit").html(powerAffairsUnit);
+										$("#powerAffairsUnit").val(rst.powerAffairsUnit.oid)
+									}
+								});
+							}
 							$("#saveLawRelatedModal").modal("show");
 						}
 					});
@@ -160,7 +210,8 @@ $(function() {
 			originalRealName: $("#searchOriginalRealName").val(),
 			originalNation: $("#searchOriginalNation").val(),
 			originalIdentityCard: $("#searchOriginalIdentityCard").val(),
-			originalBirthday: $("#searchOriginalBirthday").val()
+			originalBirthday: $("#searchOriginalBirthday").val(),
+			"area.oid": $("#searchAreaOid").val()
 		};
 		return temp;
 	}
@@ -296,6 +347,20 @@ $(function() {
 	        originalNation.html(nations);
         }
     });
+    
+	$.ajax({
+		type:"get",
+		url:"/dictionary/searchParentDictionaryDatas?dictionaryValue=UNIT_TYPE",
+		success: function(rst) {
+			console.log(rst);
+			var parentDictionary = "<option value=''>请选择</option>";
+			$.each(rst, function(n, val) {
+				parentDictionary += "<option value='"+val.oid+"'>"+val.dictDataName+"</option>"
+			});
+			$("#parentDictionary").html(parentDictionary);
+		}
+	});
+	
     function getNationName(value) {
     	if (value == "Han") {
 			return "汉族";
@@ -412,3 +477,17 @@ $(function() {
 		}
     }
 })
+function getChildDictionaryDatas() {
+	alert($("option:selected", $("#parentDictionary")).val());
+	$.ajax({
+		type:"get",
+		url:"/dictionary/searchChildDictionaryDatas?parentOid="+$("option:selected", $("#parentDictionary")).val(),
+		success: function(rst) {
+			var powerAffairsUnit = "<option value=''>===请选择===</option>";
+			$(rst).each(function(i, item) {
+				powerAffairsUnit += "<option value='"+item.oid+"'>"+item.dictDataName+"</option>";
+			});
+			$("#powerAffairsUnit").html(powerAffairsUnit);
+		}
+	});
+}

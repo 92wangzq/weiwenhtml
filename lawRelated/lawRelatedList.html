@@ -17,98 +17,113 @@
 			<div class="col-lg-12">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content" style="">
-						<div class="box-header">
-							<form id="searchLawRelatedForm" action="/lawRelated/exportStuInfoExcel">
-								<div class="row">
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">信访人姓名</label>
-											<input type="text" class="form-control input-sm" id="searchRealName" name="realName" />
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">信访人民族</label>
-											<select class="form-control input-sm" id="searchNation" name="nation">
-												<option value="">请选择</option>
-												<option value="HZ">汉族</option>
-												<option value="MZ">蒙族</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">信访人身份证</label>
-											<input type="text" class="form-control input-sm" id="searchIdentityCard" name="identityCard" />
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">信访人出生日期</label>
-											<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-												<input id="searchBirthday" name="birthday" class="form-control input-sm" size="16" type="text" value="" readonly>
-												<span class="input-group-addon">
-													<span class="glyphicon glyphicon-remove"></span>
-													<span class="glyphicon glyphicon-calendar"></span>
-												</span>
-											</div>
-											<input type="hidden" id="dtp_input2" value="" />
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">原案人姓名</label>
-											<input type="text" class="form-control input-sm" id="searchOriginalRealName" name="originalRealName" />
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">原案人民族</label>
-											<select class="form-control input-sm" id="searchOriginalNation" name="originalNation">
-												<option value="">请选择</option>
-												<option value="HZ">汉族</option>
-												<option value="MZ">蒙族</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">原案人身份证</label>
-											<input type="text" class="form-control input-sm" id="searchOriginalIdentityCard" name="originalIdentityCard" />
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group">
-											<label for="exampleInputName2">原案人出生日期</label>
-											<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-												<input id="searchOriginalBirthday" name="originalBirthday" class="form-control input-sm" size="16" type="text" value="" readonly>
-												<span class="input-group-addon">
-													<span class="glyphicon glyphicon-remove"></span>
-													<span class="glyphicon glyphicon-calendar"></span>
-												</span>
-											</div>
-											<input type="hidden" id="dtp_input2" value="" />
-										</div>
-									</div>
-									<div class="col-xs-2">
-										<div class="form-group" style="padding-top: 3px;">
-											<label class="control-label">&nbsp;</label></br>
-											<button type="button" id="search" class="btn btn-primary btn-sm" >查询</button>
-											<button type="reset" class="btn btn-default btn-sm">重置</button>
+						<div class="row">
+							<div class="col-lg-2">
+								<div class="ibox float-e-margins">
+									<div class="ibox-content mailbox-content">
+										<div class="file-manager">
+											<div id="areaTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
 										</div>
 									</div>
 								</div>
-							</form>
+							</div>
+							<div class="col-lg-10 animated fadeInRight">
+								<div class="box-header" style="margin-top: 10px;">
+									<form id="searchLawRelatedForm" action="/lawRelated/exportStuInfoExcel">
+										<input type="hidden" value="" id="searchAreaOid" />
+										<div class="row">
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">信访人姓名</label>
+													<input type="text" class="form-control input-sm" id="searchRealName" name="realName" />
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">信访人民族</label>
+													<select class="form-control input-sm" id="searchNation" name="nation">
+														<option value="">请选择</option>
+														<option value="HZ">汉族</option>
+														<option value="MZ">蒙族</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">信访人身份证</label>
+													<input type="text" class="form-control input-sm" id="searchIdentityCard" name="identityCard" />
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">信访人出生日期</label>
+													<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+														<input id="searchBirthday" name="birthday" class="form-control input-sm" size="16" type="text" value="" readonly>
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-remove"></span>
+															<span class="glyphicon glyphicon-calendar"></span>
+														</span>
+													</div>
+													<input type="hidden" id="dtp_input2" value="" />
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">原案人姓名</label>
+													<input type="text" class="form-control input-sm" id="searchOriginalRealName" name="originalRealName" />
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">原案人民族</label>
+													<select class="form-control input-sm" id="searchOriginalNation" name="originalNation">
+														<option value="">请选择</option>
+														<option value="HZ">汉族</option>
+														<option value="MZ">蒙族</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">原案人身份证</label>
+													<input type="text" class="form-control input-sm" id="searchOriginalIdentityCard" name="originalIdentityCard" />
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="exampleInputName2">原案人出生日期</label>
+													<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+														<input id="searchOriginalBirthday" name="originalBirthday" class="form-control input-sm" size="16" type="text" value="" readonly>
+														<span class="input-group-addon">
+															<span class="glyphicon glyphicon-remove"></span>
+															<span class="glyphicon glyphicon-calendar"></span>
+														</span>
+													</div>
+													<input type="hidden" id="dtp_input2" value="" />
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group" style="padding-top: 3px;">
+													<label class="control-label">&nbsp;</label></br>
+													<button type="button" id="search" class="btn btn-primary btn-sm" >查询</button>
+													<button type="reset" class="btn btn-default btn-sm">重置</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div id="toolbar" class="btn-group">
+									<button id="addLawRelatedBtn" type="button" class="btn btn-primary">
+							             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>录入信息
+							        </button>
+									<button id="exportStuInfoExcel" type="button" class="btn btn-primary">
+							             <span class="glyphicon glyphicon-save" aria-hidden="true"></span>导出报表
+							        </button>
+								</div>
+								<table id="lawRelatedTable"></table>
+							</div>
 						</div>
-						<div id="toolbar" class="btn-group">
-							<button id="addLawRelatedBtn" type="button" class="btn btn-primary">
-					             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>录入信息
-					        </button>
-							<button id="exportStuInfoExcel" type="button" class="btn btn-primary">
-					             <span class="glyphicon glyphicon-save" aria-hidden="true"></span>导出报表
-					        </button>
-						</div>
-						<table id="lawRelatedTable"></table>
+						
 					</div>
 				</div>
 			</div>
@@ -160,7 +175,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-xs-4">
+									<div class="col-xs-3">
 										<div class="form-group">
 											<label for="exampleInputName2">出生日期</label>
 											<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
@@ -173,7 +188,7 @@
 											<input type="hidden" id="dtp_input2" value="" />
 										</div>
 									</div>
-									<div class="col-xs-4">
+									<div class="col-xs-3">
 										<div class="form-group">
 											<label for="exampleInputName2">政治面貌</label>
 											<select class="form-control input-sm required" id="politicalStatus" name="politicalStatus">
@@ -184,10 +199,16 @@
 											</select>
 										</div>
 									</div>
-									<div class="col-xs-4">
+									<div class="col-xs-3">
 										<div class="form-group">
 											<label for="exampleInputName2">工作单位</label>
 											<input type="text" class="form-control input-sm required" id="workUnit" name="workUnit" />
+										</div>
+									</div>
+									<div class="col-xs-3">
+										<div class="form-group">
+											<label for="exampleInputName2">联系方式</label>
+											<input type="text" class="form-control input-sm required" id="telephone" name="telephone" />
 										</div>
 									</div>
 								</div>
@@ -202,14 +223,6 @@
 										<div class="form-group">
 											<label for="exampleInputName2">户籍地</label>
 											<input type="text" class="form-control input-sm required" id="domicile" name="domicile" />
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-xs-4">
-										<div class="form-group">
-											<label for="exampleInputName2">联系方式</label>
-											<input type="text" class="form-control input-sm required" id="telephone" name="telephone" />
 										</div>
 									</div>
 								</div>
@@ -369,21 +382,11 @@
 											<label for="exampleInputName2">事权单位</label>
 											<div class="row">
 												<div class="col-xs-4">
-													<select class="form-control input-sm" id="" name="">
-														<option>请选择</option>
-														<option>法院</option>
-														<option>公安局</option>
-														<option>检察院</option>
-														<option>司法局</option>
+													<select class="form-control input-sm" id="parentDictionary" name="parentDictionary" onchange="getChildDictionaryDatas()">
 													</select>
 												</div>
 												<div class="col-xs-8">
-													<select class="form-control input-sm" id="powerAffairsUnit" name="powerAffairsUnit">
-														<option>===请选择===</option>
-														<option value="">开鲁人民法院</option>
-														<option value="">通辽市公安局</option>
-														<option value="">通辽市检察院</option>
-														<option value="">工料是司法局</option>
+													<select class="form-control input-sm" id="powerAffairsUnit" name="powerAffairsUnit.oid">
 													</select>
 												</div>
 											</div>
@@ -600,7 +603,7 @@
 									<div class="col-xs-6">
 										<div class="form-group">
 											<label for="exampleInputName2">事权单位:</label>
-											<div id="powerAffairsUnit" class="form-control"></div>
+											<div id="searchPowerAffairsUnit" class="form-control"></div>
 										</div>
 									</div>
 									<div class="col-xs-6">

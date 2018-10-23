@@ -449,7 +449,7 @@ $(document).ready(function() {
 	})
 
 	//绑定人员类别级联事件
-	$("#searchPersonnelTypeParent").on('change', function() {
+	$("#searchPersonnelTypeParent").off("change").on('change', function() {
 		$.ajax({
 			type: "get",
 			url: "/personnelType/children?pOid=" + $("option:selected", this).val(),
