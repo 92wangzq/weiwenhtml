@@ -17,7 +17,6 @@ $(function(){
 				contentType: "application/x-www-form-urlencoded",
 				clickToSelect: true, //是否启用点击选中行
 				uniqueId: "oid",
-				toolbarAlign: "right",
 				columns: [{
 					title: '序号',
 					width: '80',
@@ -37,8 +36,8 @@ $(function(){
 					events: operateEvents,
 					formatter: function() {
 						return [
-							'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>',
-							'<button type="button" class="RoleOfedit btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>'
+							'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>',
+							'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>'
 						].join('');
 					}
 				}]
@@ -89,7 +88,6 @@ $(function(){
 			url:"/area/children",
 			dataType: "json",
 			success: function(rst){
-				console.log(rst);
 				$.each(rst, function(name, ival) {
 					$("#pOid").append("<option value='"+ival.oid+"'>"+ival.title+"</option>");
 				});
@@ -97,23 +95,44 @@ $(function(){
 			}
 		});
 	});
+	$("#areaName").off('click').click('on', function(event) {
+		$.ajax({
+			type: "get",
+			dataType: "json", //预期服务器返回的数据类型
+			url: "/area/children", //url
+			success: function(rst) {
+				$("#areaTree").treeview({
+					data: rst,
+					onNodeSelected: function(event, data) {
+						$("#areaName").val(data.title);
+						$("#pOid").val(data.oid);
+						$("#areaModal").modal("hide");
+					}
+				});
+				$("#areaModal").modal("show");
+			}
+		});
+	})
 	$("#save").click("on", function(){
-		console.log($('#saveAreaForm').serialize());
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/area/save", //url
 			data: $('#saveAreaForm').serialize(),
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				if(rst.code == 0) {
 					$('#saveAreaModel').modal('hide');
 					$("#areaTable").bootstrapTable('refresh');
+					toastr.success("成功!");
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})
+	
+	$('#areaModal').on('hidden.bs.modal', function() {
+		$('#savePersonnelModal').css({
+			'overflow-y': 'scroll'
+		});
+		$("body").addClass("modal-open");
+	});
 })

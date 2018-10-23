@@ -6,11 +6,13 @@
 		<script src="/searchPersonnel/searchPersonnelList.js"></script>
 	</head>
 	<body>
-		<div class="row">
+		<div class="row" style="top: -1px; position: absolute; width: 110%;">
+			<div class="ibox-title">
+				<h5>维稳工作>>人员信息管理>>多条件查询</h5>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 40px;">
 			<div class="col-lg-12">
-				<div class="ibox-title">
-					<h5>维稳工作>>人员信息管理>>多条件查询</h5>
-				</div>
 				<div class="ibox float-e-margins">
 					<div class="ibox-content" style="">
 						<div class="row">
@@ -18,13 +20,13 @@
 								<div class="ibox float-e-margins">
 									<div class="ibox-content mailbox-content">
 										<div class="file-manager">
-											<div id="searchAreaTreeView"></div>
+											<div id="searchAreaTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-10">
-								<div class="box-header">
+								<div class="box-header" style="margin-top: 10px;">
 									<form id="searchPersonnelForm" action="/personnel/exportStuInfoExcel">
 										<input type="hidden" value="" id="searchAreaOid" />
 										<div class="row">
@@ -56,13 +58,8 @@
 											</div>
 											<div class="col-xs-2">
 												<div class="form-group">
-													<label class="control-label">政治面貌</label>
-													<select class="form-control input-sm" id="searchPoliticalStatus" name="politicalStatus">
-														<option value="">===请选择===</option>
-														<option value="QZ">群众</option>
-														<option value="TY">团员</option>
-														<option value="DY">党员</option>
-													</select>
+													<label class="control-label">身份证号</label>
+													<input type="text" class="form-control input-sm" id="searchIdentitycCard" name="identitycCard">
 												</div>
 											</div>
 											<div class="col-xs-2">
@@ -81,8 +78,15 @@
 													</select>
 												</div>
 											</div>
-										</div>
-										<div class="row">
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label for="dtp_input2" class="control-label">出生日期</label>
+													<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+														<input id="searchBirthday" name="birthday" class="form-control input-sm" size="16" type="text" value="" readonly>
+														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+													</div>
+												</div>
+											</div>
 											<div class="col-xs-2">
 												<div class="form-group">
 													<label class="control-label">现实状态</label>
@@ -108,23 +112,32 @@
 											</div>
 											<div class="col-xs-2">
 												<div class="form-group">
-													<label for="dtp_input2" class="control-label">出生日期</label>
-													<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-														<input id="searchBirthday" name="birthday" class="form-control input-sm" size="16" type="text" value="" readonly>
-														<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-													</div>
+													<label class="control-label">家庭成员姓名</label>
+													<input type="text" class="form-control input-sm" id="searchFamilyRealName" name="familyRealName">
 												</div>
 											</div>
 											<div class="col-xs-2">
 												<div class="form-group">
-													<label class="control-label">身份证号</label>
-													<input type="text" class="form-control input-sm" id="searchIdentitycCard" name="identitycCard">
+													<label class="control-label">户籍地</label>
+													<input type="text" class="form-control input-sm" id="searchDomicile" name="domicile">
 												</div>
 											</div>
 											<div class="col-xs-2">
 												<div class="form-group">
-													<label class="control-label">联系方式</label>
-													<input type="text" class="form-control input-sm" id="searchTelephone" name="telephone">
+													<label class="control-label">现住址</label>
+													<input type="text" class="form-control input-sm" id="searchPresent" name="present">
+												</div>
+											</div>
+											<div class="col-xs-6">
+												<div class="form-group">
+													<label class="control-label">涉稳事件及诉求</label>
+													<input type="text" class="form-control input-sm" id="searchEventAppeals" name="eventAppeals">
+												</div>
+											</div>
+											<div class="col-xs-6">
+												<div class="form-group">
+													<label class="control-label">信访经理及处置结果</label>
+													<input type="text" class="form-control input-sm" id="searchExperienceResults" name="experienceResults">
 												</div>
 											</div>
 										</div>
@@ -137,6 +150,120 @@
 								<table id="searchPersonnelListTable" data-toggle="table"></table>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="personnelInfoModal" tabindex="-1" role="dialog" aria-labelledby="personnelInfoModalLabel">
+			<div class="modal-dialog bs-example-modal-lg" role="document">
+				<div class="modal-content modal-lg">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">人员信息明细</h4>
+					</div>
+					<div class="modal-body">
+						<div id="viewPersonnelInfo">
+							<div class="row">
+								<div class="col-md-4">
+									<label class="control-label">操作员</label>
+									<div id="operator"></div>
+								</div>
+								<div class="col-md-8">
+									<label class="control-label">行政区域</label>
+									<div id="viewAreaName" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="control-label">姓名</label>
+									<div id="realName" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">性别</label>
+									<div id="sex" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">民族</label>
+									<div id="nation" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="control-label">政治面貌</label>
+									<div id="politicalStatus" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">人员类别</label>
+									<div id="personnelPType" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">&nbsp;</label>
+									<div id="personnelType" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="control-label">现实状态</label>
+									<div id="realState" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">风险等级</label>
+									<div id="riskRating" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">出生日期</label>
+									<div id="birthday" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<label class="control-label">身份证号</label>
+									<div id="identityCard" class="form-control"></div>
+								</div>
+								<div class="col-md-4">
+									<label class="control-label">联系方式</label>
+									<div id="telephone" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label class="control-label">工作地址</label>
+									<div id="workUnit" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label class="control-label">户籍地址</label>
+									<div id="domicile" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label class="control-label">现住址</label>
+									<div id="present" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label class="control-label">涉稳事件及诉求</label>
+									<div id="eventAppeals" class="form-control"></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<label class="control-label">信访经历及处置结果</label>
+									<div id="experienceResults"></div>
+								</div>
+							</div>
+							<div class="modal-header">
+
+							</div>
+							<h4 class="modal-title">家庭成员</h4>
+							<table id="viewFamilyTable"></table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					</div>
 				</div>
 			</div>

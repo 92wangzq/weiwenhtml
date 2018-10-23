@@ -9,6 +9,9 @@ $(function() {
 				data: rst,
 				showBorder: false,
 				levels: 3,
+				expandIcon: "glyphicon glyphicon-menu-right",
+				collapseIcon: "glyphicon glyphicon-menu-down",
+				emptyIcon: "glyphicon glyphicon-stop",
 				onNodeSelected: function(event, data) {
 					$("#searchAreaOid").val(data.oid);
 					$("#newsColumnTable").bootstrapTable('refresh');
@@ -72,6 +75,26 @@ $(function() {
 				].join('');
 			},
 			events: {
+				'click .RoleOfedit': function(e, value, row, index) {
+					$.setForm("#saveNewsColumnForm", row);
+					$("#areaName").val(row.area.title);
+					$("#areaOid").val(row.area.oid);
+					$.ajax({
+						url: "/newsColumn/searchNewsColumns?limit=1000&offset=1&area.oid="+row.area.oid,
+						type: "get",
+						dataType: "json",
+						contentType: "application/json; charset=utf8",
+						success: function(rst) {
+							var options = "<option value=''>" + "===请选择===" + "</option>"
+							$.each(rst.rows, function(name, ival) {
+								options += "<option value='" + ival.oid + "'>" + ival.title + "</option>";
+							});
+							$("#parentOid").html(options);
+							$("#parentOid").val(row.parent.oid);
+						}
+					});
+					$("#saveNewsColumnModal").modal("show");
+				},
 				'click .RoleOfdelete': function(e, value, row, index) {
 					Ewin.confirm({
 						message: "确认要删除选择的数据吗？"
@@ -105,6 +128,7 @@ $(function() {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit: params.limit, //页面大小
 			offset: (params.offset / params.limit) + 1,
+			title: $("#searchTitle").val(),
 			"area.oid": $("#searchAreaOid").val()
 		};
 		return temp;
@@ -156,6 +180,26 @@ $(function() {
 					].join('');
 				},
 				events: {
+					'click .RoleOfedit': function(e, value, row, index) {
+						$.setForm("#saveNewsColumnForm", row);
+						$("#areaName").val(row.area.title);
+						$("#areaOid").val(row.area.oid);
+						$.ajax({
+							url: "/newsColumn/searchNewsColumns?limit=1000&offset=1&area.oid="+row.area.oid,
+							type: "get",
+							dataType: "json",
+							contentType: "application/json; charset=utf8",
+							success: function(rst) {
+								var options = "<option value='0'>" + "===请选择===" + "</option>"
+								$.each(rst.rows, function(name, ival) {
+									options += "<option value='" + ival.oid + "'>" + ival.title + "</option>";
+								});
+								$("#parentOid").html(options);
+								$("#parentOid").val(row.parent.oid);
+							}
+						});
+						$("#saveNewsColumnModal").modal("show");
+					},
 					'click .RoleOfdelete': function(e, value, row, index) {
 						Ewin.confirm({
 							message: "确认要删除选择的数据吗？"
@@ -185,7 +229,9 @@ $(function() {
 			}
         });
     };
-
+	$("#search").off('click').on('click', function() {
+		$("#newsColumnTable").bootstrapTable('refresh');
+	})
 	$("#addNewsColumnBtn").off('click').on("click", function() {
 		$("#saveNewsColumnForm")[0].reset();
 //		$.ajax({
@@ -220,7 +266,7 @@ $(function() {
 							dataType: "json",
 							contentType: "application/json; charset=utf8",
 							success: function(rst) {
-								var options = "<option value=''>" + "===请选择===" + "</option>"
+								var options = "<option value='0'>" + "===请选择===" + "</option>"
 								$.each(rst.rows, function(name, ival) {
 									options += "<option value='" + ival.oid + "'>" + ival.title + "</option>";
 								});
@@ -263,6 +309,7 @@ $(function() {
 				if(rst.code == 0) {
 					$('#saveNewsColumnModal').modal('hide');
 					$("#newsColumnTable").bootstrapTable('refresh');
+					toastr.success("成功!");
 				};
 			},
 			error: function() {

@@ -10,6 +10,9 @@ $(function(){
 				data: rst,
 				showBorder: false,
 				levels: 3,
+				expandIcon: "glyphicon glyphicon-menu-right",
+				collapseIcon: "glyphicon glyphicon-menu-down",
+				emptyIcon: "glyphicon glyphicon-stop",
 				onNodeSelected: function(event, data) {
 					$("#searchNewsColumnOid").val(data.oid);
 					$("#newsTable").bootstrapTable('refresh');
@@ -40,7 +43,6 @@ $(function(){
 		url: '/news/searchNews', //请求后台的URL（*）
 		method: 'get', //请求方式（*）
 		toolbar: '#toolbar', //工具按钮用哪个容器
-		toolbarAlign: "right",
 		striped: true, //是否显示行间隔色
 		cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		pagination: true, //是否显示分页（*）
@@ -83,9 +85,9 @@ $(function(){
 			width: '10%',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfview btn btn-default btn-sm">查看</button>',
-					'<button type="button" class="RoleOfdelete btn btn-default  btn-sm">删除</button>',
-					'<button type="button" class="RoleOfedit btn btn-default  btn-sm">修改</button>'
+					'<button type="button" class="RoleOfview btn btn-primary btn-sm">查看</button>',
+					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>',
+					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>'
 				].join('');
 			},
 			events: {

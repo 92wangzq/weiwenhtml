@@ -6,78 +6,19 @@
 		<script src="/permission/permissionList.js"></script>
 	</head>
 	<body>
-		<div class="row">
+		<div class="row" style="top: -1px; position: absolute; width: 110%;">
+			<div class="ibox-title">
+				<h5>系统设置>>资源管理</h5>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 40px;">
 			<div class="col-lg-12">
 				<div class="ibox float-e-margins">
-					<div class="ibox-title">
-						<h5>系统设置>>资源管理</h5>
-					</div>
 					<div class="ibox-content" style="">
-						<div id="toolbar" class="btn-group">
-							<button id="btn_addArea" type="button" class="btn btn-primary" data-toggle="modal" data-target="#saveUserModal">
-					             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-					        </button>
-						</div>
 						<table id="permissionTable"></table>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="modal fade" id="saveUserModal" tabindex="-1" role="dialog" aria-labelledby="saveUserModalLabel">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title">角色管理</h4>
-					</div>
-					<div class="modal-body">
-						<form id="saveUserForm">
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">角色名称</label>
-										<input type="text" class="form-control" id="realName" name="realName">
-									</div>
-								</div>
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">英文名称</label>
-										<input type="text" class="form-control" id="userName" name="userName">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">用户密码</label>
-										<input type="text" class="form-control" id="userPwd" name="userPwd">
-									</div>
-								</div>
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">用户类型</label>
-										<input type="text" class="form-control" id="userTypeOid" name="userTypeOid">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-xs-6">
-									<div class="form-group">
-										<label class="control-label">行政区域</label>
-										<input type="text" class="form-control" id="areaOid" name="areaOid">
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary" id="save">保存</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal-dialog -->
 		</div>
 	</body>
 </html>

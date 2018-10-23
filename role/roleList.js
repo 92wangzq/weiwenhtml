@@ -53,7 +53,6 @@ $(function() {
 		pageSize: 10, //每页的记录行数（*）
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
 		toolbar: '#toolbar', //工具按钮用哪个容器
-		toolbarAlign: "right",
 		striped: true, //隔行变色
 		detailView: true,
 		columns: [{
@@ -77,8 +76,8 @@ $(function() {
 			width: '200',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>',
-					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">删除</button>'
+					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>',
+					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>'
 				].join('');
 			},
 			events: {

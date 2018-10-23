@@ -1,5 +1,15 @@
 $(document).ready(function() {
-
+	var userName = $.cookie("userName");
+	if(!userName) {
+		Ewin.confirm({
+			message: "登录超时，请重新登录"
+		}).on(function(e) {
+			if(!e) {
+				return;
+			}
+			window.location.href = '/login.html';
+		});
+	}
 	//加载左侧treeView
 	$.ajax({
 		type: "get",
@@ -9,7 +19,10 @@ $(document).ready(function() {
 			$("#areaTreeView").treeview({
 				data: rst,
 				showBorder: false,
-				levels: 1,
+				levels: 2,
+				expandIcon: "glyphicon glyphicon-menu-right",
+				collapseIcon: "glyphicon glyphicon-menu-down",
+				emptyIcon: "glyphicon glyphicon-stop",
 				onNodeSelected: function(event, data) {
 					$("#searchAreaOid").val(data.oid);
 					$("#personnelTable").bootstrapTable('refresh');
@@ -19,9 +32,6 @@ $(document).ready(function() {
 					$("#personnelTable").bootstrapTable('refresh');
 				}
 			});
-		},
-		error: function() {
-			alert("异常！");
 		}
 	});
 
@@ -93,7 +103,10 @@ $(document).ready(function() {
 			field: 'nation',
 			title: '民族',
 			width: '5%',
-			align: 'center'
+			align: 'center',
+			formatter: function(value, row) {
+				return getNationName(value);
+			}
 		}, {
 			field: 'identityCard',
 			title: '身份证号',
@@ -112,7 +125,16 @@ $(document).ready(function() {
 			field: 'politicalStatus',
 			title: '政治面貌',
 			width: '6%',
-			align: 'center'
+			align: 'center',
+			formatter: function(value, row) {
+				if(value == "QZ") {
+					return "群众";
+				} else if(value == "TY") {
+					return "团员";
+				} else if(value == "DY") {
+					return "党员";
+				}
+			}
 		}, {
 			field: 'telephone',
 			title: '联系方式',
@@ -188,9 +210,6 @@ $(document).ready(function() {
 								if(rst.code == 0) {
 									$("#personnelTable").bootstrapTable('refresh');
 								}
-							},
-							error: function() {
-								alert("系统异常！");
 							}
 						});
 					});
@@ -262,7 +281,10 @@ $(document).ready(function() {
 							title: '姓名'
 						}, {
 							field: 'nation',
-							title: '民族'
+							title: '民族',
+							formatter: function(value, row) {
+								return getNationName(value);
+							}
 						}, {
 							field: 'identityCard',
 							title: '身份证号'
@@ -303,11 +325,7 @@ $(document).ready(function() {
 						}
 					});
 					$("#viewPersonnelInfo #nation").html(function() {
-						if(row.nation == "HZ") {
-							return "汉族";
-						} else if(row.nation == "MZ") {
-							return "蒙族";
-						}
+						return getNationName(row.nation);
 					});
 					$("#viewPersonnelInfo #politicalStatus").html(function() {
 						if(row.politicalStatus == "QZ") {
@@ -371,7 +389,10 @@ $(document).ready(function() {
 							title: '姓名'
 						}, {
 							field: 'nation',
-							title: '民族'
+							title: '民族',
+							formatter: function(value, row) {
+								return getNationName(value);
+							}
 						}, {
 							field: 'identityCard',
 							title: '身份证号'
@@ -539,9 +560,6 @@ $(document).ready(function() {
 					}
 				});
 				$("#areaModal").modal("show");
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})
@@ -602,9 +620,6 @@ $(document).ready(function() {
 					$("#personnelTable").bootstrapTable('refresh');
 					toastr.success("成功!");
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})
@@ -652,13 +667,137 @@ $(document).ready(function() {
 		},
 		rules: {}
 	});
-	//	jQuery.validator.addMethod("english", function(value, element) {
-	//		var chrnum = /^([a-zA-Z]+)$/;
-	//		return this.optional(element) || (chrnum.test(value));
-	//	}, "只能输入字母");
-	//	jQuery.validator.addMethod("isMobile", function(value, element) {
-	//		var length = value.length;
-	//		var mobile = /^1[34578]\d{9}$/; /*/^1(3|4|5|7|8)\d{9}$/*/
-	//		return this.optional(element) || (length == 11 && mobile.test(value));
-	//	}, "请正确填写您的手机号码");
+    $.ajax({
+        type:"get",
+        dataType:"json",
+        url:"/json/ethnic.json",
+        success: function(data) {
+	        var nation= $("#nation");
+	        var searchNation = $("#searchNation");
+	        var familyNation = $("#familyNation");
+	        var nations = "<option value=''>===请选择===</option>";
+	        $(data).each(function(i,item){
+	            nations += "<option value='"+item.en+"'>"+item.name+"</option>";
+	        });
+	        nation.html(nations);
+	        searchNation.html(nations);
+	        familyNation.html(nations);
+        }
+    });
+    
+    function getNationName(value) {
+    	if (value == "Han") {
+			return "汉族";
+		} else if (value == "Manchu") {
+			return "蒙古族";
+		} else if (value == "Hui") {
+			return "回族";
+		} else if (value == "Tibetan") {
+			return "藏族";
+		} else if (value == "Uyghur") {
+			return "维吾尔族";
+		} else if (value == "Miao") {
+			return "苗族";
+		} else if (value == "Yi") {
+			return "彝族";
+		} else if (value == "Zhuang") {
+			return "壮族";
+		} else if (value == "Buyei") {
+			return "布依族";
+		} else if (value == "Korean") {
+			return "朝鲜族";
+		} else if (value == "Manchu") {
+			return "满族";
+		} else if (value == "Dong") {
+			return "侗族";
+		} else if (value == "Yao") {
+			return "瑶族";
+		} else if (value == "Bai") {
+			return "白族";
+		} else if (value == "Tujia") {
+			return "土家族";
+		} else if (value == "Hani") {
+			return "哈尼族";
+		} else if (value == "Kazakh") {
+			return "哈萨克族";
+		} else if (value == "Dai") {
+			return "傣族";
+		} else if (value == "Li") {
+			return "黎族";
+		} else if (value == "Lisu") {
+			return "傈僳族";
+		} else if (value == "Va") {
+			return "佤族";
+		} else if (value == "She") {
+			return "畲族";
+		} else if (value == "Gaoshan") {
+			return "高山族";
+		} else if (value == "Lahu") {
+			return "拉祜族";
+		} else if (value == "Shui") {
+			return "水族";
+		} else if (value == "Dongxiang") {
+			return "东乡族";
+		} else if (value == "Nakhi") {
+			return "纳西族";
+		} else if (value == "Jingpo") {
+			return "景颇族";
+		} else if (value == "Kyrgyz") {
+			return "柯尔克孜族";
+		} else if (value == "Monguor") {
+			return "土族";
+		} else if (value == "Daur") {
+			return "达斡尔族";
+		} else if (value == "Mulao") {
+			return "仫佬族";
+		} else if (value == "Qiang") {
+			return "羌族";
+		} else if (value == "Blang") {
+			return "布朗族";
+		} else if (value == "Salar") {
+			return "撒拉族";
+		} else if (value == "Maonan") {
+			return "毛南族";
+		} else if (value == "Gelao") {
+			return "仡佬族";
+		} else if (value == "Xibe") {
+			return "锡伯族";
+		} else if (value == "Achang") {
+			return "阿昌族";
+		} else if (value == "Pumi") {
+			return "普米族";
+		} else if (value == "Tajik") {
+			return "塔吉克族";
+		} else if (value == "Nu") {
+			return "怒族";
+		} else if (value == "Uzbek") {
+			return "乌孜别克族";
+		} else if (value == "Russian") {
+			return "俄罗斯族";
+		} else if (value == "Evenk") {
+			return "鄂温克族";
+		} else if (value == "Deang") {
+			return "德昂族";
+		} else if (value == "Bonan") {
+			return "保安族";
+		} else if (value == "Yughur") {
+			return "裕固族";
+		} else if (value == "Kinh") {
+			return "京族";
+		} else if (value == "Tatar") {
+			return "塔塔尔族";
+		} else if (value == "Derung") {
+			return "独龙族";
+		} else if (value == "Oroqen") {
+			return "鄂伦春族";
+		} else if (value == "Nanai") {
+			return "赫哲族";
+		} else if (value == "Monpa") {
+			return "门巴族";
+		} else if (value == "Lhoba") {
+			return "珞巴族";
+		} else if (value == "Jino") {
+			return "基诺族";
+		}
+    }
 })

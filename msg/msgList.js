@@ -25,7 +25,6 @@ $(function() {
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
 		contentType: "application/json; charset=utf-8",
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
-		toolbarAlign: "right",
 		striped: true,//隔行变色
 		detailView: true,
 		columns: [{
@@ -95,7 +94,6 @@ $(function() {
 	
 	//初始化子表格(无线循环)
     InitSubTable = function (index, row, $detail) {
-    	console.log(row)
         var parent = row.title;
         var cur_table = $detail.html('<table></table>').find('table');
         $(cur_table).bootstrapTable({

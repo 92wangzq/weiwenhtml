@@ -6,11 +6,13 @@
 		<script src="/document/documentList.js"></script>
 	</head>
 	<body>
-		<div class="row">
+		<div class="row" style="top: -1px; position: absolute; width: 110%;">
+			<div class="ibox-title">
+				<h5>维稳工作>>公文管理>>公文查询</h5>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 40px;">
 			<div class="col-lg-12">
-				<div class="ibox-title">
-					<h5>维稳工作>>公文管理>>公文查询</h5>
-				</div>
 				<div class="ibox float-e-margins">
 					<div class="ibox-content" style="">
 						<div class="row">
@@ -18,13 +20,13 @@
 								<div class="ibox float-e-margins">
 									<div class="ibox-content mailbox-content">
 										<div class="file-manager">
-											<div id="documentColumnTreeView"></div>
+											<div id="documentColumnTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-10 animated fadeInRight">
-								<div class="box-header">
+								<div class="box-header" style="margin-top: 10px;">
 									<form>
 										<input type="hidden" value="" id="searchDocumentColumnOid" />
 										<div class="row">
@@ -148,8 +150,8 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-default" id="save">保存</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary" id="save">保存</button>
 					</div>
 				</div>
 				<!-- /.modal-content -->
@@ -168,27 +170,27 @@
 							<div class="row">
 								<div class="col-md-4">
 									<label class="control-label">公文标题</label>
-									<div id="title"></div>
+									<div id="title" class="form-control"></div>
 								</div>
 								<div class="col-md-4">
 									<label class="control-label">公文栏目</label>
-									<div id="columnTitle"></div>
+									<div id="columnTitle" class="form-control"></div>
 								</div>
 								<div class="col-md-4">
 									<label class="control-label">上传时间</label>
-									<div id="insertTime"></div>
+									<div id="insertTime" class="form-control"></div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12">
 									<label class="control-label">备注</label>
-									<div id="remarks"></div>
+									<div id="remarks" class="form-control"></div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-md-12">
 									<label class="control-label">描述</label>
-									<div id="description"></div>
+									<div id="description" style="border:1px solid #CCCCCC"></div>
 								</div>
 							</div>
 							<div class="row">
@@ -201,7 +203,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					</div>
 				</div>
 			</div>

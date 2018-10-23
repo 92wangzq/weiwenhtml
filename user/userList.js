@@ -15,7 +15,6 @@ $(function() {
 		strictSearch: true,
 		clickToSelect: true, //是否启用点击选中行
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
-		toolbarAlign: "right",
 		columns: [{
 			title: '序号',
 			formatter: function(value, row, index) {

@@ -15,7 +15,6 @@ $(function() {
 		strictSearch: true,
 		clickToSelect: true, //是否启用点击选中行
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
-		toolbarAlign: "right",
 		striped: true,//隔行变色
 		columns: [{
 			title: '序号',
@@ -28,12 +27,8 @@ $(function() {
 		}, {
 			field: 'nation',
 			title: '信访人民族',
-			formatter: function(value, row, index) {
-				if (value == "HZ") {
-					return "汉族"
-				} else if (value == "MZ") {
-					return "蒙族"
-				}
+			formatter: function(value, row) {
+				return getNationName(value);
 			}
 		}, {
 			field: 'identityCard',
@@ -47,12 +42,8 @@ $(function() {
 		}, {
 			field: 'originalNation',
 			title: '原案人民族',
-			formatter: function(value, row, index) {
-				if (value == "HZ") {
-					return "汉族"
-				} else if (value == "MZ") {
-					return "蒙族"
-				}
+			formatter: function(value, row) {
+				return getNationName(value);
 			}
 		}, {
 			field: 'originalIdentityCard',
@@ -184,6 +175,7 @@ $(function() {
 	})
 	
 	$("#addLawRelatedBtn").on('click', function() {
+		$("#saveLawRelatedForm")[0].reset();
 		$("#saveLawRelatedModal").modal("show");
 	});
 
@@ -284,4 +276,139 @@ $(function() {
 		forceParse: 0,
 		language: 'cn'
 	});
+	
+	$.ajax({
+        type:"get",
+        dataType:"json",
+        url:"/json/ethnic.json",
+        success: function(data) {
+	        var searchNation= $("#searchNation");
+	        var searchOriginalNation = $("#searchOriginalNation");
+	        var nation = $("#nation");
+	        var originalNation = $("#originalNation");
+	        var nations = "<option value=''>===请选择===</option>";
+	        $(data).each(function(i,item){
+	            nations += "<option value='"+item.en+"'>"+item.name+"</option>";
+	        });
+	        searchNation.html(nations);
+	        searchOriginalNation.html(nations);
+	        nation.html(nations);
+	        originalNation.html(nations);
+        }
+    });
+    function getNationName(value) {
+    	if (value == "Han") {
+			return "汉族";
+		} else if (value == "Manchu") {
+			return "蒙古族";
+		} else if (value == "Hui") {
+			return "回族";
+		} else if (value == "Tibetan") {
+			return "藏族";
+		} else if (value == "Uyghur") {
+			return "维吾尔族";
+		} else if (value == "Miao") {
+			return "苗族";
+		} else if (value == "Yi") {
+			return "彝族";
+		} else if (value == "Zhuang") {
+			return "壮族";
+		} else if (value == "Buyei") {
+			return "布依族";
+		} else if (value == "Korean") {
+			return "朝鲜族";
+		} else if (value == "Manchu") {
+			return "满族";
+		} else if (value == "Dong") {
+			return "侗族";
+		} else if (value == "Yao") {
+			return "瑶族";
+		} else if (value == "Bai") {
+			return "白族";
+		} else if (value == "Tujia") {
+			return "土家族";
+		} else if (value == "Hani") {
+			return "哈尼族";
+		} else if (value == "Kazakh") {
+			return "哈萨克族";
+		} else if (value == "Dai") {
+			return "傣族";
+		} else if (value == "Li") {
+			return "黎族";
+		} else if (value == "Lisu") {
+			return "傈僳族";
+		} else if (value == "Va") {
+			return "佤族";
+		} else if (value == "She") {
+			return "畲族";
+		} else if (value == "Gaoshan") {
+			return "高山族";
+		} else if (value == "Lahu") {
+			return "拉祜族";
+		} else if (value == "Shui") {
+			return "水族";
+		} else if (value == "Dongxiang") {
+			return "东乡族";
+		} else if (value == "Nakhi") {
+			return "纳西族";
+		} else if (value == "Jingpo") {
+			return "景颇族";
+		} else if (value == "Kyrgyz") {
+			return "柯尔克孜族";
+		} else if (value == "Monguor") {
+			return "土族";
+		} else if (value == "Daur") {
+			return "达斡尔族";
+		} else if (value == "Mulao") {
+			return "仫佬族";
+		} else if (value == "Qiang") {
+			return "羌族";
+		} else if (value == "Blang") {
+			return "布朗族";
+		} else if (value == "Salar") {
+			return "撒拉族";
+		} else if (value == "Maonan") {
+			return "毛南族";
+		} else if (value == "Gelao") {
+			return "仡佬族";
+		} else if (value == "Xibe") {
+			return "锡伯族";
+		} else if (value == "Achang") {
+			return "阿昌族";
+		} else if (value == "Pumi") {
+			return "普米族";
+		} else if (value == "Tajik") {
+			return "塔吉克族";
+		} else if (value == "Nu") {
+			return "怒族";
+		} else if (value == "Uzbek") {
+			return "乌孜别克族";
+		} else if (value == "Russian") {
+			return "俄罗斯族";
+		} else if (value == "Evenk") {
+			return "鄂温克族";
+		} else if (value == "Deang") {
+			return "德昂族";
+		} else if (value == "Bonan") {
+			return "保安族";
+		} else if (value == "Yughur") {
+			return "裕固族";
+		} else if (value == "Kinh") {
+			return "京族";
+		} else if (value == "Tatar") {
+			return "塔塔尔族";
+		} else if (value == "Derung") {
+			return "独龙族";
+		} else if (value == "Oroqen") {
+			return "鄂伦春族";
+		} else if (value == "Nanai") {
+			return "赫哲族";
+		} else if (value == "Monpa") {
+			return "门巴族";
+		} else if (value == "Lhoba") {
+			return "珞巴族";
+		} else if (value == "Jino") {
+			return "基诺族";
+		}
+    }
 })

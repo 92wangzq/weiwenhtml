@@ -37,7 +37,12 @@ $(function(){
 			},
 			events: {
 				'click .RoleOfdelete': function(e, value, row, index) {
-					if(confirm("确定删除此条信息?")) {
+					Ewin.confirm({
+						message: "确认要删除选择的数据吗？"
+					}).on(function(e) {
+						if(!e) {
+							return;
+						}
 						$.ajax({
 							type: "post",
 							url: "/documentColumn/remove?oid=" + row.oid,
@@ -51,29 +56,16 @@ $(function(){
 								alert("系统异常！");
 							}
 						});
-					}
+					});
 				}
 			}
-		}],
-		rowStyle: function(row, index) {
-			var classesArr = ['success', 'info'];
-			var strclass = "";
-			if(index % 2 === 0) { //偶数行
-				strclass = classesArr[0];
-			} else { //奇数行
-				strclass = classesArr[1];
-			}
-			return {
-				classes: strclass
-			};
-		}, //隔行变色
+		}]
 	});
 	function queryParams(params) {
 		var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
 			limit: params.limit, //页面大小
 			offset: (params.offset / params.limit) + 1
 		};
-		console.log(temp);
 		return temp;
 	}
 	
@@ -83,7 +75,6 @@ $(function(){
 			url:"/documentColumn/children",
 			dataType: "json",
 			success: function(rst){
-//				console.log(rst);
 				$.each(rst, function(name, ival) {
 					$("#pOid").append("<option value='"+ival.oid+"'>"+ival.title+"</option>");
 				});
@@ -92,14 +83,12 @@ $(function(){
 		});
 	});
 	$("#save").on("click", function() {
-		console.log($('#saveDocumentColumnForm').serialize());
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/documentColumn/save", //url
 			data: $('#saveDocumentColumnForm').serialize(),
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				if(rst.code == 0) {
 					$('#saveDocumentColumnModal').modal('hide');
 					$("#documentColumnTable").bootstrapTable('refresh');

@@ -11,8 +11,7 @@ $(function() {
 		pageNumber: 1, //初始化加载第一页，默认第一页
 		pageSize: 10, //每页的记录行数（*）
 		pageList: [10, 25, 50, 100], //可供选择的每页的行数（*）
-		toolbar: '#toolbar', //工具按钮用哪个容器
-		toolbarAlign: "right",
+//		toolbar: '#toolbar', //工具按钮用哪个容器
 		striped: true, //隔行变色
 		detailView: true,
 		columns: [{

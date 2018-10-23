@@ -57,7 +57,7 @@
 				<div class="navbar-header" style="color: #FFFFFF;margin-top: 11px;">
 					<img src="/img/timg.png" width="65%"/>
 				</div>
-				<ul class="nav navbar-top-links navbar-right" style="">
+				<ul class="nav navbar-top-links navbar-right" style="margin-top: 10px;">
 					<li>
 						<span id="nowTime" class="m-r-sm text-muted welcome-message" style="color: #FFFFFF;font-family:'宋体'"></span>
 					</li>
@@ -126,7 +126,6 @@
 			</nav>
         </div>
 		<div id="wrapper">
-			
 			<nav class="navbar-default navbar-static-side" role="navigation">
 				<div class="sidebar-collapse">
 					<ul class="nav metismenu" id="side-menu">
@@ -267,7 +266,7 @@
 					$("#side-menu").append(menu);
 					// MetsiMenu
 					$('#side-menu').metisMenu();
-					$(".userMenu").on("click", "a", function() {
+					$(".userMenu").off("click").on("click", "a", function() {
 						var sId = $(this).data("id"); //获取data-id的值
 						if(sId != null && sId != undefined) {
 							loadInner(sId);

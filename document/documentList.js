@@ -11,6 +11,9 @@ $(function() {
 				data: rst,
 				showBorder: false,
 				levels: 3,
+				expandIcon: "glyphicon glyphicon-menu-right",
+				collapseIcon: "glyphicon glyphicon-menu-down",
+				emptyIcon: "glyphicon glyphicon-stop",
 				onNodeSelected: function(event, data) {
 					console.log(data);
 					$("#searchDocumentColumnOid").val(data.oid);
@@ -57,7 +60,6 @@ $(function() {
 		strictSearch: true,
 		clickToSelect: true, //是否启用点击选中行
 		uniqueId: "oid", //每一行的唯一标识，一般为主键列
-		toolbarAlign: "right",
 		striped: true,//隔行变色
 		columns: [{
 			title: '序号',
@@ -89,12 +91,13 @@ $(function() {
 			field: 'operate',
 			title: '操作',
 			align: 'center',
+			width: '200',
 			formatter: function() {
 				return [
-					'<button type="button" class="RoleOfView btn btn-default  btn-sm" style="margin-right:15px;">查看</button>',
-					'<button type="button" class="RoleOfedit btn btn-default  btn-sm" style="margin-right:15px;">修改</button>',
-					'<button type="button" class="RoleOfdelete btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
-					'<button type="button" class="RoleOfDownload btn btn-default  btn-sm" style="margin-right:15px;">下载</button>'
+					'<button type="button" class="RoleOfView btn btn-primary  btn-sm">查看</button>',
+					'<button type="button" class="RoleOfedit btn btn-primary  btn-sm">修改</button>',
+					'<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">删除</button>',
+					'<button type="button" class="RoleOfDownload btn btn-primary  btn-sm">下载</button>'
 				].join('');
 			},
 			events: {
@@ -237,7 +240,7 @@ $(function() {
 		});
 	});
 
-	$("#fileName").on("change", function() {
+	$("#fileName").off("change").on("change", function() {
 		var formData = new FormData();
 		formData.append('fileName', $('#fileName')[0].files[0]);
 		$.ajax({
@@ -258,7 +261,7 @@ $(function() {
 		});
 
 	});
-	$("#save").on("click", function() {
+	$("#save").off("click").on("click", function() {
 		$("#saveDocumentForm #description").val(UE.getEditor('documentEditor').getContent());
 		console.log($('#saveDocumentForm').serialize());
 		$.ajax({

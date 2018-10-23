@@ -6,11 +6,13 @@
 		<script src="/newsColumn/newsColumnList.js"></script>
 	</head>
 	<body>
+		<div class="row" style="top: -1px; position: absolute; width: 110%;">
+			<div class="ibox-title">
+				<h5>维稳工作>>办公助手>>栏目查询</h5>
+			</div>
+		</div>
 		<div class="row">
-			<div class="col-lg-12">
-				<div class="ibox-title">
-					<h5>维稳工作>>办公助手>>栏目查询</h5>
-				</div>
+			<div class="col-lg-12" style="margin-top: 40px;">
 				<div class="ibox float-e-margins">
 					<div class="ibox-content" style="">
 						<div class="row">
@@ -18,15 +20,32 @@
 								<div class="ibox float-e-margins">
 									<div class="ibox-content mailbox-content">
 										<div class="file-manager">
-											<div id="areaTreeView"></div>
+											<div id="areaTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-10 animated fadeInRight">
-								<form id="searchPersonnelForm">
-									<input type="hidden" value="" id="searchAreaOid" />
-								</form>
+								<div class="box-header" style="margin-top: 10px;">
+									<form>
+										<input type="hidden" value="" id="searchAreaOid" />
+										<div class="row">
+											<div class="col-xs-2">
+												<div class="form-group">
+													<label class="control-label">栏目名称</label>
+													<input type="text" class="form-control input-sm" id="searchTitle">
+												</div>
+											</div>
+											<div class="col-xs-2">
+												<div class="form-group" style="padding-top: 3px;">
+													<label class="control-label">&nbsp;</label></br>
+													<button type="button" id="search" class="btn btn-primary btn-sm" >查询</button>
+													<button type="reset" class="btn btn-default btn-sm">重置</button>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
 								<div id="toolbar" class="btn-group">
 									<button id="addNewsColumnBtn" type="button" class="btn btn-primary">
 				        				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
