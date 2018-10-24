@@ -21,9 +21,6 @@ $(function() {
 					$("#newsColumnTable").bootstrapTable('refresh');
 				}
 			});
-		},
-		error: function() {
-			alert("异常！");
 		}
 	});
 	$('#newsColumnTable').bootstrapTable({
@@ -110,9 +107,6 @@ $(function() {
 								if(rst.code == 0) {
 									$("#newsColumnTable").bootstrapTable('refresh');
 								}
-							},
-							error: function() {
-								alert("系统异常！");
 							}
 						});
 					});
@@ -215,9 +209,6 @@ $(function() {
 									if(rst.code == 0) {
 										$("#newsColumnTable").bootstrapTable('refresh');
 									}
-								},
-								error: function() {
-									alert("系统异常！");
 								}
 							});
 						});
@@ -277,9 +268,6 @@ $(function() {
 					}
 				});
 				$("#areaModal").modal("show");
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})
@@ -311,9 +299,6 @@ $(function() {
 					$("#newsColumnTable").bootstrapTable('refresh');
 					toastr.success("成功!");
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})

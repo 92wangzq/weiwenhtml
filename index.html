@@ -55,7 +55,7 @@
 					<a class="navbar-minimalize minimalize-styl-2 btn btn-circle " href="#"><i class="fa fa-bars"></i></a>
 				</div>
 				<div class="navbar-header" style="color: #FFFFFF;margin-top: 11px;">
-					<img src="/img/timg.png" width="65%"/>
+					<img src="/img/timg.png" width="65%" />
 				</div>
 				<ul class="nav navbar-top-links navbar-right" style="margin-top: 10px;">
 					<li>
@@ -65,57 +65,9 @@
 						<span>修改密码</span>
 					</li>
 					<li class="dropdown">
-						<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-							<i class="fa fa-envelope fa-lg"></i> <span class="label label-warning">16</span>
+						<a class="dropdown-toggle count-info" data-toggle="dropdown" id="unreadMsg">
+							<i class="fa fa-envelope fa-lg"></i> <span class="label label-warning" id="unreadMsgCount"></span>
 						</a>
-						<ul class="dropdown-menu dropdown-messages">
-							<li>
-								<div class="dropdown-messages-box">
-									<a href="profile.html" class="pull-left">
-										<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a7.jpg">
-									</a>
-									<div>
-										<small class="pull-right">46小时前</small>
-										<strong>小明</strong> 评论了 <strong>小红</strong>. <br>
-										<small class="text-muted">2017.10.06 7:58</small>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="dropdown-messages-box">
-									<a href="profile.html" class="pull-left">
-										<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/a4.jpg">
-									</a>
-									<div class="media-body ">
-										<small class="pull-right text-navy">5小时前</small>
-										<strong>小红</strong> 打电话给了 <strong>小黑</strong>. <br>
-										<small class="text-muted">2017.10.06 7:58</small>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="dropdown-messages-box">
-									<a href="profile.html" class="pull-left">
-										<img alt="image" class="img-circle" src="http://cn.inspinia.cn/html/inspiniaen/img/profile.jpg">
-									</a>
-									<div class="media-body ">
-										<small class="pull-right">23小时前</small>
-										<strong>小黑</strong> 点赞了 <strong>小红</strong>. <br>
-										<small class="text-muted">2017.10.06 7:58</small>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-							<li>
-								<div class="text-center link-block">
-									<a href="mailbox.html">
-										<i class="fa fa-envelope"></i> <strong>阅读所有消息</strong>
-									</a>
-								</div>
-							</li>
-						</ul>
 					</li>
 					<li>
 						<a href="login.html" style="color: #FFFFFF;">
@@ -124,7 +76,7 @@
 					</li>
 				</ul>
 			</nav>
-        </div>
+		</div>
 		<div id="wrapper">
 			<nav class="navbar-default navbar-static-side" role="navigation">
 				<div class="sidebar-collapse">
@@ -139,7 +91,7 @@
 										<span class="block m-t-xs" style="float: left; margin-left: 10px; margin-top: 0px; font-size: 14px;"> 
 											<strong class="font-bold" id="loginInfo"></strong>
 			                            </span>
-										<span class="block m-t-xs"style="margin-left: 10px;">
+									<span class="block m-t-xs" style="margin-left: 10px;">
 			                            	
 			                            </span>
 									</span>
@@ -214,7 +166,7 @@
 			if(!userName) {
 				window.location.href = '/login.html';
 			} else {
-				$("#loginInfo").html($.cookie("userName")+"<br/><span style='font-size: 8px; margin-top: 20px;'>管理员</span>");
+				$("#loginInfo").html($.cookie("userName") + "<br/><span style='font-size: 8px; margin-top: 20px;'>管理员</span>");
 			}
 
 			//退出登录
@@ -321,6 +273,11 @@
 				if(val < 10) return "0" + val;
 				return val;
 			}
+			getUnreadMsgCount();
+			setInterval('getUnreadMsgCount()', 7000);
+			$("#unreadMsg").off("click").on("click", function() {
+				loadInner("/msg/msgList.html");
+			});
 			toastr.options = {
 				"closeButton": false, //是否示关闭按钮
 				"debug": false, //是否使用debug模式
@@ -335,6 +292,18 @@
 				"hideMethod": "fadeOut", //消失时的动画方式
 			};
 		});
+		function getUnreadMsgCount() {
+			$.ajax({
+				type: "get",
+				url: "/msg/unreadMsgCount",
+				success: function(rst) {
+					console.log(rst)
+					$("#unreadMsgCount").html(rst);
+				}
+			});
+//				//7秒后重复执行该函数
+//				setInterval('getUnreadMsgCount', 7000);
+		}
 	</script>
 
 </html>

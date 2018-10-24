@@ -210,9 +210,6 @@ $(function() {
 					}
 				});
 				$("#areaModal").modal("show");
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	});
@@ -235,9 +232,6 @@ $(function() {
 					$("#userTable").bootstrapTable('refresh');
 					toastr.success("成功!");
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	});

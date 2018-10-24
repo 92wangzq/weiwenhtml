@@ -51,9 +51,6 @@ $(function(){
 								if(rst.code == 0) {
 									$("#documentColumnTable").bootstrapTable('refresh');
 								}
-							},
-							error: function() {
-								alert("系统异常！");
 							}
 						});
 					});
@@ -93,9 +90,6 @@ $(function(){
 					$('#saveDocumentColumnModal').modal('hide');
 					$("#documentColumnTable").bootstrapTable('refresh');
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})

@@ -112,9 +112,6 @@ $(function() {
 									}
 								}
 							});
-						},
-						error: function() {
-							alert("异常！");
 						}
 					});
 					$.setForm("#saveRoleForm", row);
@@ -209,9 +206,6 @@ $(function() {
 						}
 					}
 				});
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 		$("#saveRoleForm")[0].reset();
@@ -240,9 +234,6 @@ $(function() {
 					$('#saveRoleModal').modal('hide');
 					$("#roleTable").bootstrapTable('refresh');
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	});

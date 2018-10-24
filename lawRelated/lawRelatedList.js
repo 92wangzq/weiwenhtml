@@ -285,9 +285,6 @@ $(function() {
 						$('#saveLawRelatedModal').modal('hide');
 						$("#lawRelatedTable").bootstrapTable('refresh');
 					};
-				},
-				error: function() {
-					alert("异常！");
 				}
 			});
 		}

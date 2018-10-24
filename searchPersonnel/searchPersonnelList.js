@@ -22,9 +22,6 @@ $(function() {
 					$("#personnelTable").bootstrapTable('refresh');
                 }
 			});
-		},
-		error: function() {
-			alert("异常！");
 		}
 	});
 	//初始化时间组件

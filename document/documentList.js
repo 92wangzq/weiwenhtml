@@ -25,9 +25,6 @@ $(function() {
 					$("#documentTable").bootstrapTable('refresh');
 				}
 			});
-		},
-		error: function() {
-			alert("异常！");
 		}
 	});
 
@@ -116,9 +113,6 @@ $(function() {
 								if(rst.code == 0) {
 									$("#documentTable").bootstrapTable('refresh');
 								}
-							},
-							error: function() {
-								alert("系统异常！");
 							}
 						});
 					});
@@ -189,9 +183,6 @@ $(function() {
 								})
 							}
 							$("#viewDocumentModal").modal("show");
-						},
-						error: function() {
-							alert("系统异常！");
 						}
 					});
 				},
@@ -275,9 +266,6 @@ $(function() {
 					$('#saveDocumentModal').modal('hide');
 					$("#documentTable").bootstrapTable('refresh');
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})

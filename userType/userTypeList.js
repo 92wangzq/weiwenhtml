@@ -78,9 +78,6 @@ $(function() {
 					$('#saveUserTypeModal').modal('hide');
 					$("#userTypeTable").bootstrapTable('refresh');
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})

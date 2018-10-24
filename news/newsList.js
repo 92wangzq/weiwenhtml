@@ -104,9 +104,6 @@ $(function(){
 								if(rst.code == 0) {
 									$("#newsTable").bootstrapTable('refresh');
 								}
-							},
-							error: function() {
-								alert("系统异常！");
 							}
 						});
 		            });

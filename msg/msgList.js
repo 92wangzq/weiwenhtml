@@ -335,9 +335,6 @@ $(function() {
 					$("#msgSenderTable").bootstrapTable('refresh');
 					toastr.success("成功!");
 				};
-			},
-			error: function() {
-				alert("异常！");
 			}
 		});
 	})
