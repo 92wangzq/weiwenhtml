@@ -20,7 +20,7 @@
 								<div class="ibox float-e-margins">
 									<div class="ibox-content mailbox-content">
 										<div class="file-manager">
-											<div id="documentColumnTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
+											<div id="areaTreeView" style="border: 1px solid #ccc; width: 110%; min-height: 682px; margin-top: 0px;"></div>
 										</div>
 									</div>
 								</div>
@@ -28,7 +28,7 @@
 							<div class="col-lg-10 animated fadeInRight">
 								<div class="box-header" style="margin-top: 10px;">
 									<form>
-										<input type="hidden" value="" id="searchDocumentColumnOid" />
+										<input type="hidden" value="" id="searchAreaOid" />
 										<div class="row">
 											<div class="col-xs-2">
 												<div class="form-group">
@@ -102,14 +102,6 @@
 								</div>
 								<div class="col-xs-4">
 									<div class="form-group">
-										<label class="control-label">公文栏目</label>
-										<select class="form-control input-sm" id="columnOid" name="column.oid">
-											<option>===请选择===</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-xs-4">
-									<div class="form-group">
 										<label class="control-label">上传时间</label>
 										<div class="input-group date form_date" data-date="" data-date-format="yyyy-MM-dd HH:mm:ss" data-link-format="yyyy-MM-dd HH:mm:ss">
 											<input id="insertTime" name="insertTime" class="form-control input-sm" size="16" type="text" value="" readonly>
@@ -118,6 +110,13 @@
 												<span class="glyphicon glyphicon-calendar"></span>
 											</span>
 										</div>
+									</div>
+								</div>
+								<div class="col-xs-4">
+									<div class="form-group">
+										<label class="control-label">经办人</label>
+										<select id="assignee" name="assignee" class="selectpicker show-tick form-control required" data-live-search="true" title="选择经办人">
+										</select>
 									</div>
 								</div>
 							</div>
@@ -190,7 +189,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<label class="control-label">描述</label>
-									<div id="description" style="border:1px solid #CCCCCC"></div>
+									<div id="description" class="form-control" style="min-height: 200px;"></div>
 								</div>
 							</div>
 							<div class="row">

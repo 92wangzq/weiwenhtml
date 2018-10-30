@@ -80,7 +80,7 @@
 		<div id="wrapper">
 			<nav class="navbar-default navbar-static-side" role="navigation">
 				<div class="sidebar-collapse">
-					<ul class="nav metismenu" id="side-menu">
+					<ul class="nav metismenu userMenu" id="side-menu">
 						<li class="nav-header">
 							<div class="dropdown profile-element">
 								<span>
@@ -189,10 +189,10 @@
 				success: function(rst) {
 					var menu = ""; //定义变量存储            
 					$.each(rst, function(n, val) {
-						menu += '<li style="font-size: 15px;">'
-						menu += '<a href="#"><i class="fa fa-sitemap fa-lg"></i><span class="nav-label">' + val.name + '</span><span class="fa arrow fa-lg"></span></a>'
-						menu += '<ul class="nav nav-second-level collapse userMenu" style="height: 0px;">';
 						if(val.permissions != null) {
+							menu += '<li style="font-size: 15px;">'
+							menu += '<a href="#"><i class="fa fa-sitemap fa-lg"></i><span class="nav-label">' + val.name + '</span><span class="fa arrow fa-lg"></span></a>'
+							menu += '<ul class="nav nav-second-level collapse userMenu" style="height: 0px;">';
 							$.each(val.permissions, function(n, two) {
 								if(two.permissions != null) {
 									menu += '<li>';
@@ -211,9 +211,13 @@
 									menu += '</li>';
 								}
 							})
+							menu += '</ul>';
+							menu += '</li>';
+						} else {
+							menu += '<li style="font-size: 15px;">';
+							menu += '<a data-id="' + val.url + '"><i class="fa fa-sitemap"></i>' + val.name + '</a>';
+							menu += '</li>';
 						}
-						menu += '</ul>';
-						menu += '</li>';
 					})
 					$("#side-menu").append(menu);
 					// MetsiMenu
@@ -297,12 +301,9 @@
 				type: "get",
 				url: "/msg/unreadMsgCount",
 				success: function(rst) {
-					console.log(rst)
 					$("#unreadMsgCount").html(rst);
 				}
 			});
-//				//7秒后重复执行该函数
-//				setInterval('getUnreadMsgCount', 7000);
 		}
 	</script>
 

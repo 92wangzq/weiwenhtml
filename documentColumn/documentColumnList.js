@@ -66,20 +66,22 @@ $(function(){
 		return temp;
 	}
 	
-	$("#addDocumentColumnBtn").click("on", function(){
+	$("#addDocumentColumnBtn").off("click").on("click", function(){
 		$.ajax({
 			type:"get",
 			url:"/documentColumn/children",
 			dataType: "json",
 			success: function(rst){
-				$.each(rst, function(name, ival) {
-					$("#pOid").append("<option value='"+ival.oid+"'>"+ival.title+"</option>");
-				});
-				$("#saveDocumentColumnModal").modal("show");
+				if (rst != null) {
+					$.each(rst, function(name, ival) {
+						$("#pOid").append("<option value='"+ival.oid+"'>"+ival.title+"</option>");
+					});
+				}
 			}
 		});
+		$("#saveDocumentColumnModal").modal("show");
 	});
-	$("#save").on("click", function() {
+	$("#save").off("click").on("click", function() {
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型

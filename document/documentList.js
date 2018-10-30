@@ -1,30 +1,76 @@
 $(function() {
 
-	//初始化左侧栏目treeview
+//	//初始化左侧栏目treeview
+//	$.ajax({
+//		type: "get",
+//		dataType: "json", //预期服务器返回的数据类型
+//		url: "/documentColumn/children?pOid=0", //url
+//		success: function(rst) {
+//			$("#documentColumnTreeView").treeview({
+//				data: rst,
+//				showBorder: false,
+//				levels: 3,
+//				expandIcon: "glyphicon glyphicon-menu-right",
+//				collapseIcon: "glyphicon glyphicon-menu-down",
+//				emptyIcon: "glyphicon glyphicon-stop",
+//				onNodeSelected: function(event, data) {
+//					$("#searchDocumentColumnOid").val(data.oid);
+//					$("#documentTable").bootstrapTable('refresh');
+//				},
+//				onNodeUnselected: function(event, data) {
+//					$("#searchDocumentColumnOid").val("");
+//					$("#documentTable").bootstrapTable('refresh');
+//				}
+//			});
+//		}
+//	});
+	var userName = $.cookie("userName");
+		if(!userName) {
+			Ewin.confirm({
+				message: "登录超时，请重新登录"
+			}).on(function(e) {
+			if(!e) {
+				return;
+			}
+			window.location.href = '/login.html';
+		});
+	}
+	//加载左侧treeView
 	$.ajax({
 		type: "get",
 		dataType: "json", //预期服务器返回的数据类型
-		url: "/documentColumn/children?pOid=0", //url
+		url: "/area/children", //url
 		success: function(rst) {
-			console.log(rst); //打印服务端返回的数据(调试用)
-			$("#documentColumnTreeView").treeview({
+			$("#areaTreeView").treeview({
 				data: rst,
 				showBorder: false,
-				levels: 3,
+				levels: 2,
 				expandIcon: "glyphicon glyphicon-menu-right",
 				collapseIcon: "glyphicon glyphicon-menu-down",
 				emptyIcon: "glyphicon glyphicon-stop",
 				onNodeSelected: function(event, data) {
-					console.log(data);
-					$("#searchDocumentColumnOid").val(data.oid);
+					$("#searchAreaOid").val(data.oid);
 					$("#documentTable").bootstrapTable('refresh');
 				},
 				onNodeUnselected: function(event, data) {
-					console.log(data);
-					$("#searchDocumentColumnOid").val("");
+					$("#searchAreaOid").val("");
 					$("#documentTable").bootstrapTable('refresh');
 				}
 			});
+		}
+	});
+	
+	$.ajax({
+		type:"get",
+		url:"/user/searchAreaUsers",
+		success: function(rst) {
+			var op = "";
+			$.each(rst, function(n, val) {
+				op += "<option value='" + val.oid + "'>" + val.realName + "</option>";
+			});
+			console.log(op);
+			$("#assignee").html(op);
+			$('#assignee').selectpicker('refresh');
 		}
 	});
 
@@ -125,14 +171,12 @@ $(function() {
 						contentType: "application/json charset=utf-8",
 						success: function(rst) {
 							$.setForm("#saveDocumentForm", rst);
-							console.log(rst.column.oid);
 							$.ajax({
 								type: "get",
 								url: "/documentColumn/children",
 								contentType: "application/json charset=utf-8",
 								success: function(data) {
 									$.each(data, function(name, ival) {
-										console.log(ival.oid);
 										if (ival.oid == rst.column.oid) {
 											$("#columnOid").append("<option value='" + ival.oid + "' selected >"+ ival.title + "</option>");
 										} else {
@@ -157,9 +201,8 @@ $(function() {
 						url: "/document/viewDocument?oid=" + row.oid,
 						contentType: "application/json; charset=utf-8",
 						success: function(rst) {
-							console.log(rst);
 							$.setDiv("#viewDocumentModal", rst);
-							$("#columnTitle").html(rst.column.title);
+//							$("#columnTitle").html(rst.column.title);
 							$("#viewDocumentModal #file").html("<a href='/document/download?oid=" + rst.oid + "'>" + rst.file.title + "</a>");
 							if(rst.logs != null) {
 								$("#downloadLogTable").bootstrapTable("destroy");
@@ -199,11 +242,10 @@ $(function() {
 			limit: params.limit, //页面大小
 			offset: (params.offset / params.limit) + 1,
 			title: $("#searchTitle").val(),
-			'column.oid': $("#searchDocumentColumnOid").val(),
+			'area.oid': $("#searchAreaOid").val(),
 			startTime: $("#searchStartInsertTime").val(),
 			endTime: $("#searchEndInsertTime").val()
 		};
-		console.log(temp);
 		return temp;
 	}
 	$("#search").on('click', function() {
@@ -222,7 +264,6 @@ $(function() {
 			url: "/documentColumn/children",
 			dataType: "json",
 			success: function(rst) {
-				console.log(rst);
 				$.each(rst, function(name, ival) {
 					$("#columnOid").append("<option value='" + ival.oid + "'>" + ival.title + "</option>");
 				});
@@ -242,7 +283,6 @@ $(function() {
 			processData: false,
 			contentType: false,
 			success: function(rst) {
-				console.log(rst);
 				$("#fileOid").val(rst.oid);
 			}
 		}).done(function(res) {
@@ -254,14 +294,12 @@ $(function() {
 	});
 	$("#save").off("click").on("click", function() {
 		$("#saveDocumentForm #description").val(UE.getEditor('documentEditor').getContent());
-		console.log($('#saveDocumentForm').serialize());
 		$.ajax({
 			type: "POST", //方法类型
 			dataType: "json", //预期服务器返回的数据类型
 			url: "/document/save", //url
 			data: $('#saveDocumentForm').serialize(),
 			success: function(rst) {
-				console.log(rst); //打印服务端返回的数据(调试用)
 				if(rst.code == 0) {
 					$('#saveDocumentModal').modal('hide');
 					$("#documentTable").bootstrapTable('refresh');
